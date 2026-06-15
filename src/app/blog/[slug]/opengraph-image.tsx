@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { blogPosts } from '@/data/blog';
+import { getBlogPostBySlug } from '@/lib/content';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -7,7 +7,7 @@ export const alt = 'McFuntain Nutraceuticals Journal';
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getBlogPostBySlug(slug);
   const title = post?.title ?? 'McFuntain Journal';
   const category = post?.category ?? 'Insights & Wisdom';
 

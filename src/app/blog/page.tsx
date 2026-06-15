@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
+import { getBlogPosts } from '@/lib/content';
 import BlogIndex from './BlogIndex';
+
+// Revalidate so Sanity Studio edits appear on the live site within ~1 min
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Journal | McFuntain Nutraceuticals',
@@ -13,6 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  return <BlogIndex />;
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
+  return <BlogIndex posts={posts} />;
 }

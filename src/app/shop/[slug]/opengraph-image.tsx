@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { getProductBySlug } from '@/data/products';
+import { getProductBySlug } from '@/lib/content';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -7,7 +7,7 @@ export const alt = 'McFuntain Nutraceuticals Product';
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   const name = product?.name ?? 'McFuntain Nutraceuticals';
   const tagline = product?.tagline ?? 'Nature Refined for Better Living';
   const series = product ? `${product.series} Series` : 'Premium Botanicals';

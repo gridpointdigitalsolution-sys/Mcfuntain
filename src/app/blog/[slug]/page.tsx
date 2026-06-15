@@ -3,14 +3,18 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Calendar, Check, Clock } from 'lucide-react';
 import PageHero from '@/components/ui/PageHero';
-import { blogPosts, type BlogPost } from '@/data/blog';
+import { blogPosts as localBlogPosts, type BlogPost } from '@/data/blog';
+import { getBlogPosts, getBlogPostBySlug } from '@/lib/content';
+
+// Revalidate so Sanity Studio edits appear on the live site within ~1 min
+export const revalidate = 60;
 
 // ---------------------------------------------------------------------------
 // Static generation
 // ---------------------------------------------------------------------------
 
 export function generateStaticParams() {
-  return blogPosts.map((p) => ({ slug: p.slug }));
+  return localBlogPosts.map((p) => ({ slug: p.slug }));
 }
 
 // ---------------------------------------------------------------------------
@@ -23,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     return { title: 'Article Not Found | McFuntain Nutraceuticals' };
@@ -65,12 +69,13 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const allPosts = await getBlogPosts();
+  const post = allPosts.find((p) => p.slug === slug);
 
   if (!post) notFound();
 
   // Related posts — others, capped at 3
-  const related: BlogPost[] = blogPosts
+  const related: BlogPost[] = allPosts
     .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
 

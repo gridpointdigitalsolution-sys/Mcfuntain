@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getProducts, getAllSeries } from '@/lib/content';
 import Hero from '@/components/home/Hero';
 import BotanicalsShowcase from '@/components/home/BotanicalsShowcase';
 import PremiumOfferBanner from '@/components/home/PremiumOfferBanner';
@@ -18,7 +19,10 @@ export const metadata: Metadata = {
   description: "Premium herbal supplements crafted with science-backed formulations. Explore our 7 product series for cellular health, cognitive clarity, metabolic balance, and whole-body wellness.",
 };
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const [products, series] = await Promise.all([getProducts(), getAllSeries()]);
   return (
     <>
       <Hero />
@@ -26,7 +30,7 @@ export default function Home() {
       <BotanicalsShowcase />
       <PremiumOfferBanner />
       <WhyChooseUs />
-      <ShopBySeries />
+      <ShopBySeries products={products} series={series} />
       <HowItWorks />
       <IngredientsShowcase />
       <Testimonials />

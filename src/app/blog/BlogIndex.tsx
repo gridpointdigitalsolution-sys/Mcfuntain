@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import PageHero from '@/components/ui/PageHero';
-import { blogPosts, type BlogPost } from '@/data/blog';
+import { blogPosts as localBlogPosts, type BlogPost } from '@/data/blog';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -67,7 +67,7 @@ function PostCard({ post, index }: { post: BlogPost; index: number }) {
   );
 }
 
-export default function BlogIndex() {
+export default function BlogIndex({ posts = localBlogPosts }: { posts?: BlogPost[] }) {
   return (
     <>
       <PageHero
@@ -81,7 +81,7 @@ export default function BlogIndex() {
       <section className="bg-cream py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post, i) => (
+            {posts.map((post, i) => (
               <PostCard key={post.slug} post={post} index={i} />
             ))}
           </div>

@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { products, getProductBySlug, getProductsBySeries } from '@/data/products';
+import { products } from '@/data/products';
+import { getProducts, getProductBySlug, getProductsBySeries } from '@/lib/content';
 import ProductDetail from './ProductDetail';
+
+// Revalidate so Sanity Studio edits appear on the live site within ~1 min
+export const revalidate = 60;
 
 // ---------------------------------------------------------------------------
 // Static generation
@@ -21,7 +25,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return { title: 'Product Not Found | McFuntain Nutraceuticals' };
@@ -48,15 +52,17 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) notFound();
 
   // Related products: same series first, topped up from other series
-  const sameSeries = getProductsBySeries(product.seriesSlug).filter(
-    (p) => p.id !== product.id,
-  );
-  const fallback = products.filter(
+  const [seriesMatches, allProducts] = await Promise.all([
+    getProductsBySeries(product.seriesSlug),
+    getProducts(),
+  ]);
+  const sameSeries = seriesMatches.filter((p) => p.id !== product.id);
+  const fallback = allProducts.filter(
     (p) => p.id !== product.id && p.seriesSlug !== product.seriesSlug,
   );
   const related = [...sameSeries, ...fallback].slice(0, 4);

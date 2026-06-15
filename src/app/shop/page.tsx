@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
-import { products, getAllSeries } from '@/data/products';
+import { getProducts, getAllSeries } from '@/lib/content';
 import ShopContent from './ShopContent';
+
+// Revalidate so Sanity Studio edits appear on the live site within ~1 min
+export const revalidate = 60;
 
 // ---------------------------------------------------------------------------
 // Metadata
@@ -21,8 +24,8 @@ export const metadata: Metadata = {
 // Page
 // ---------------------------------------------------------------------------
 
-export default function ShopPage() {
-  const seriesList = getAllSeries();
+export default async function ShopPage() {
+  const [products, seriesList] = await Promise.all([getProducts(), getAllSeries()]);
 
   return <ShopContent products={products} seriesList={seriesList} />;
 }

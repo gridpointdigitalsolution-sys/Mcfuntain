@@ -1,11 +1,13 @@
 import type { MetadataRoute } from 'next';
-import { products } from '@/data/products';
-import { blogPosts } from '@/data/blog';
+import { getProducts, getBlogPosts } from '@/lib/content';
 
 const BASE_URL = 'https://mcfuntain.com';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 60;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const [products, blogPosts] = await Promise.all([getProducts(), getBlogPosts()]);
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

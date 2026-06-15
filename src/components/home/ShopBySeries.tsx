@@ -10,8 +10,8 @@ import {
 } from 'lucide-react';
 import SectionHeading from '../ui/SectionHeading';
 import { useCart } from '@/context/CartContext';
-import { products, series } from '@/data/products';
-import type { Product } from '@/data/products';
+import { products as localProducts, series as localSeries } from '@/data/products';
+import type { Product, Series } from '@/data/products';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -123,7 +123,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 /* ------------------------------------------------------------------ */
 /*  Main — tabbed Shop by Series                                       */
 /* ------------------------------------------------------------------ */
-export default function ShopBySeries() {
+export default function ShopBySeries({
+  products = localProducts,
+  series = localSeries,
+}: {
+  products?: Product[];
+  series?: Series[];
+}) {
   const [active, setActive] = useState(series[0].slug);
   const reduce = useReducedMotion();
 
