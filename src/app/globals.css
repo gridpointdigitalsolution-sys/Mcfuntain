@@ -41,6 +41,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -890,6 +892,14 @@ body {
 .mounds-both::after {
   right: 0;
   border-radius: 9999px 0 0 9999px;
+}
+
+/* Hide the decorative gold edge bars on mobile (looked like an unwanted side border) */
+@media (max-width: 640px) {
+  .mounds-both::before,
+  .mounds-both::after {
+    display: none;
+  }
 }
 
 /* ============================================================

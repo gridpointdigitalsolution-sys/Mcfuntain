@@ -33,18 +33,18 @@ export default function PremiumOfferBanner() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.9, ease: EASE }}
-              className="relative z-10 text-white"
+              className="relative z-10 text-white text-center lg:text-left"
             >
               <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold uppercase leading-[1.05]">
                 Enjoy <span className="text-gold">20% Off</span>
                 <br />
                 Premium Package
               </h2>
-              <p className="mt-5 text-white/75 text-base lg:text-lg leading-relaxed max-w-md">
+              <p className="mt-5 text-white/75 text-base lg:text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
                 Save 20% on every premium bundle. Stack your wellness with our highest-tier formulas — limited-time savings on every package.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+              <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4">
                 <Link
                   href="/shop"
                   className="group inline-flex items-center gap-3 bg-gold text-ink font-bold rounded-full pl-6 pr-2 py-2.5 shadow-[0_10px_30px_-8px_rgba(212,160,23,0.6)] hover:shadow-[0_16px_40px_-8px_rgba(212,160,23,0.85)] transition-all duration-300"
@@ -98,7 +98,7 @@ export default function PremiumOfferBanner() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1.0, ease: EASE, delay: 0.2 }}
-            className="relative md:hidden h-[360px] -mt-2 mb-2 mx-auto w-[320px] z-10"
+            className="relative md:hidden h-[420px] -mt-2 mb-2 mx-auto w-[360px] max-w-[88%] z-10"
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}

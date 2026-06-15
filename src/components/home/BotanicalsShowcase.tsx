@@ -36,8 +36,49 @@ export default function BotanicalsShowcase() {
 
       <div className="relative mx-auto max-w-6xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* LEFT: card + bottle composite */}
-          <div className="relative h-[540px] sm:h-[620px] lg:h-[760px]">
+          {/* MOBILE: clean centered stack — big bottle + aligned feature card */}
+          <div className="lg:hidden flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, filter: 'blur(8px)' }}
+              whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 1, ease: EASE }}
+              className="relative h-[360px] w-[300px] max-w-[80%]"
+            >
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative h-full w-full"
+              >
+                <Image
+                  src="/images/hero/libido-support.webp"
+                  alt="McFuntain Divine Libido Support"
+                  fill
+                  sizes="300px"
+                  className="object-contain drop-shadow-[0_30px_55px_rgba(27,42,74,0.4)]"
+                />
+              </motion.div>
+            </motion.div>
+
+            <div className="-mt-4 w-full max-w-sm rounded-[28px] bg-gradient-to-br from-navy via-[#15223d] to-[#0f1830] p-6 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.5)] border border-white/5">
+              <div className="space-y-6">
+                {features.map((f) => (
+                  <div key={f.title} className="text-center">
+                    <div className="mx-auto mb-3 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-gold/15 ring-1 ring-gold/30">
+                      <f.icon className="h-5 w-5 text-gold" strokeWidth={2} />
+                    </div>
+                    <h3 className="font-heading text-white text-base font-bold uppercase tracking-normal mb-1.5 leading-tight">
+                      {f.title}
+                    </h3>
+                    <p className="text-white/65 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* LEFT (desktop): card + bottle composite */}
+          <div className="relative hidden lg:block lg:h-[760px]">
             {/* decorative concentric rings */}
             <motion.div
               initial={{ opacity: 0, scale: 0.85 }}

@@ -107,11 +107,11 @@ export default function Footer() {
         <div className="flex flex-col items-center pt-16 pb-12 text-center">
           <Link href="/" aria-label="Back to homepage">
             <Image
-              src="/images/brand/logo-dark.png"
+              src="/images/brand/logo-light.png"
               alt="McFuntain Nutraceuticals"
               width={600}
-              height={180}
-              className="mb-5 h-[160px] md:h-[220px] w-auto hover:opacity-80 transition-opacity duration-300"
+              height={600}
+              className="mb-5 h-[150px] w-auto rounded-2xl shadow-[0_18px_45px_-15px_rgba(0,0,0,0.6)] ring-1 ring-gold/25 md:h-[190px] hover:opacity-90 transition-opacity duration-300"
             />
           </Link>
           <p className="font-heading text-2xl tracking-wide text-gold-light md:text-3xl">
