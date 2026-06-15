@@ -16,7 +16,9 @@ import {
   ShoppingCart,
   Check,
   ArrowRight,
-  SlidersHorizontal,
+  LayoutGrid,
+  Grid2x2,
+  List,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,6 +43,20 @@ interface ShopContentProps {
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+type ViewMode = 'comfort' | 'large' | 'list';
+
+const VIEWS: { key: ViewMode; label: string; icon: typeof List }[] = [
+  { key: 'comfort', label: 'Grid', icon: LayoutGrid },
+  { key: 'large', label: 'Large', icon: Grid2x2 },
+  { key: 'list', label: 'List', icon: List },
+];
+
+const gridClassFor: Record<ViewMode, string> = {
+  comfort: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  large: 'grid-cols-1 sm:grid-cols-2',
+  list: 'grid-cols-1',
+};
 
 const sortOptions: { value: SortOption; label: string }[] = [
   { value: 'popularity', label: 'Popularity' },
@@ -95,10 +111,12 @@ function StarRating({ value }: { value: number }) {
 function ShopCard({
   product,
   index,
+  view,
   onQuickView,
 }: {
   product: Product;
   index: number;
+  view: ViewMode;
   onQuickView: (p: Product) => void;
 }) {
   const { addItem } = useCart();
@@ -125,6 +143,58 @@ function ShopCard({
     onQuickView(product);
   };
 
+  // ---- LIST view: horizontal row ----
+  if (view === 'list') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.45, delay: (index % 4) * 0.05, ease: EASE }}
+      >
+        <Link href={`/shop/${product.id}`} className="group flex items-stretch gap-4 overflow-hidden rounded-2xl border border-beige-dark/40 bg-white shadow-sm transition-all duration-400 hover:border-gold/50 hover:shadow-[0_18px_45px_-18px_rgba(212,160,23,0.28)] sm:gap-6">
+          <div className="relative aspect-square w-28 shrink-0 overflow-hidden bg-beige sm:w-44">
+            <Image
+              src={`${product.imageFolder}/bottle-1.jpg`}
+              alt={product.name}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              sizes="(max-width:640px) 112px, 176px"
+            />
+          </div>
+          <div className="flex min-w-0 flex-1 flex-col justify-center py-3 pr-4 sm:py-5">
+            <span
+              className="mb-1.5 inline-block w-fit rounded-full px-2 py-0.5 font-heading text-[9px] font-bold uppercase tracking-widest text-white"
+              style={{ backgroundColor: product.signatureColor }}
+            >
+              {product.series}
+            </span>
+            <StarRating value={rating} />
+            <h3 className="mt-1 truncate font-heading text-lg font-bold uppercase leading-tight tracking-tight text-ink transition-colors group-hover:text-gold-deep sm:text-xl">
+              {product.name}
+            </h3>
+            <p className="mt-1 line-clamp-1 text-sm text-muted sm:line-clamp-2">{product.tagline}</p>
+          </div>
+          <div className="flex shrink-0 flex-col items-end justify-center gap-2 py-3 pr-4 sm:py-5 sm:pr-6">
+            <span className="leading-none text-right">
+              <span className="block text-[9px] font-semibold uppercase tracking-widest text-muted-light">From</span>
+              <span className="font-heading text-xl font-bold text-gold-deep sm:text-2xl">${product.pricing.small.price}</span>
+            </span>
+            <button
+              type="button"
+              onClick={handleAdd}
+              aria-label={`Add ${product.name} to cart`}
+              className={`flex h-10 w-10 items-center justify-center rounded-full text-white shadow-md transition-all duration-300 hover:scale-110 active:scale-95 ${added ? 'bg-gold-deep' : 'bg-navy hover:bg-gold-deep'}`}
+            >
+              {added ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
+            </button>
+          </div>
+        </Link>
+      </motion.div>
+    );
+  }
+
+  // ---- GRID / LARGE view: vertical card ----
   return (
     <motion.div
       initial={{ opacity: 0, y: 34 }}
@@ -407,6 +477,7 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
   const [activeSeries, setActiveSeries] = useState<string>('all');
   const [sortBy, setSortBy] = useState<SortOption>('popularity');
   const [sortOpen, setSortOpen] = useState(false);
+  const [view, setView] = useState<ViewMode>('comfort');
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   // Honour ?series= query param — sync during render when it changes, so the
@@ -461,7 +532,7 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
     <>
       <PageHero
         title="Shop"
-        eyebrow="25 Formulas · 7 Series"
+        eyebrow={`${products.length} Formulas · ${seriesList.length} Series`}
         subtitle="Science-backed botanical formulas, crafted for every dimension of your wellbeing."
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Shop' }]}
         bottleSlug="glucose-balance"
@@ -514,15 +585,37 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
                 })}
               </div>
 
-              {/* Count + sort */}
+              {/* Count + view toggle + sort */}
               <div className="flex items-center justify-between gap-3 lg:justify-end">
                 <span className="flex items-center gap-1.5 text-sm font-semibold text-muted">
-                  <SlidersHorizontal className="h-4 w-4 text-gold-deep" />
                   <span style={{ color: activeColor }} className="font-heading text-base font-bold">
                     {filtered.length}
                   </span>
                   {filtered.length === 1 ? 'product' : 'products'}
                 </span>
+
+                {/* Interactive layout switcher */}
+                <div className="flex items-center gap-0.5 rounded-full border-2 border-beige-dark/60 bg-white p-1">
+                  {VIEWS.map((v) => {
+                    const Icon = v.icon;
+                    const active = view === v.key;
+                    return (
+                      <button
+                        key={v.key}
+                        type="button"
+                        onClick={() => setView(v.key)}
+                        aria-label={`${v.label} view`}
+                        aria-pressed={active}
+                        title={`${v.label} view`}
+                        className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200 ${
+                          active ? 'bg-navy text-white shadow-sm' : 'text-muted hover:bg-beige hover:text-navy'
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" />
+                      </button>
+                    );
+                  })}
+                </div>
 
                 {/* Sort dropdown */}
                 <div className="relative">
@@ -576,17 +669,18 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
           {/*  Product grid                                                 */}
           {/* ============================================================ */}
           <motion.div
-            key={`${activeSeries}-${sortBy}`}
+            key={`${activeSeries}-${sortBy}-${view}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            className={`mt-8 grid ${gridClassFor[view]} ${view === 'list' ? 'gap-4' : 'gap-6 lg:gap-7'}`}
           >
             {filtered.map((product, i) => (
               <ShopCard
                 key={product.id}
                 product={product}
                 index={i}
+                view={view}
                 onQuickView={setQuickViewProduct}
               />
             ))}
