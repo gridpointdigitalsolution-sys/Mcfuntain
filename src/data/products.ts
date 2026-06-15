@@ -47,6 +47,7 @@ export interface Product {
   ingredients: Ingredient[];
   dosage: DosageInfo;
   pricing: Pricing;
+  bottleSizes?: number[];
   imageFolder: string;
   signatureColor: string;
   accentColor: string;
@@ -76,9 +77,8 @@ export const products: Product[] = [
     name: "Divine Mitochondria Energy",
     series: "Cellular",
     seriesSlug: "cellular",
-    tagline: "Fuel Your Cells, Power Your Life",
-    description:
-      "A mitochondrial support formula designed to boost cellular energy production and sustain all-day vitality.",
+    tagline: "Cellular energy for everyday vitality.",
+    description: "Divine Mitochondria Energy is a premium botanical wellness supplement formulated to support natural cellular vitality, energy resilience, metabolic balance, and healthy aging. Inspired by traditional African herbal wisdom alongside globally respected botanical wellness traditions, this formulation was developed for adults seeking sustainable wellness support in today's demanding lifestyle environment.",
     whyYouNeedIt:
       "If you spend the day pushing through fatigue, hitting an afternoon energy crash, or relying on caffeine to keep going, your cells may be signalling that they need more support. Divine Mitochondria Energy targets the cellular engines that produce your daily energy, supporting the mitochondria with nutrient-dense botanical compounds traditionally used to sustain stamina, mental clarity, and physical recovery.",
     longDescription:
@@ -136,9 +136,10 @@ export const products: Product[] = [
         "Most users notice improved energy within 2-3 weeks. Optimal results typically observed after 60-90 days of consistent use.",
     },
     pricing: {
-      small: { count: 60, price: 49 },
-      large: { count: 120, price: 69 },
+      small: { count: 120, price: 129 },
+      large: { count: 3, price: 302.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/mito-energy",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -171,9 +172,8 @@ export const products: Product[] = [
     name: "Divine Stem Cells",
     series: "Cellular",
     seriesSlug: "cellular",
-    tagline: "Renew at the Cellular Level",
-    description:
-      "An advanced cellular regeneration formula that supports tissue repair, neuroplasticity, and whole-body recovery.",
+    tagline: "Cellular renewal for healthy aging.",
+    description: "Divine Stem Cells is a premium botanical wellness supplement formulated to support neurological wellness, nerve vitality, cognitive resilience, physical coordination, and healthy cellular renewal. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for individuals seeking advanced support for long-term neurological and whole-body wellness, with a focus on cellular renewal and stem-cell-level vitality.",
     whyYouNeedIt:
       "Every body relies on cellular renewal to repair what daily life wears down. As we age, that renewal slows, and you start noticing slower recovery, duller skin, and aches that linger longer than they used to. Divine Stem Cells supports that natural renewal process with botanical compounds traditionally valued for restorative wellness and resilience.",
     longDescription:
@@ -232,9 +232,10 @@ export const products: Product[] = [
         "Tissue and cognitive benefits typically emerge within 3-4 weeks. Sustained cellular renewal develops over 90 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 109 },
+      small: { count: 120, price: 130 },
+      large: { count: 3, price: 320.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/cell-renewal",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -267,9 +268,8 @@ export const products: Product[] = [
     name: "Divine Longevity 30+",
     series: "Cellular",
     seriesSlug: "cellular",
-    tagline: "Age Boldly From 30",
-    description:
-      "A proactive longevity formula for adults 30+ who want to stay ahead of age-related decline.",
+    tagline: "Healthy-aging foundation for the active 30s.",
+    description: "Divine Longevity 30+ is a premium herbal vitality and cellular renewal supplement designed for adults from age 30 upward who want early anti-aging support, energy, clarity, metabolism balance, and immune strength. It draws from African herbal wisdom, adaptogenic botanicals, antioxidant nutrition, and mitochondrial support principles.",
     whyYouNeedIt:
       "Your 30s is when small habits start writing the script for the next 40 years. Energy dips, slower recovery, stress that lingers, and skin that does not bounce back the way it used to are early signals worth addressing now. Divine Longevity 30+ is a daily foundation built to strengthen the body resilience at this pivotal decade.",
     longDescription:
@@ -334,9 +334,10 @@ export const products: Product[] = [
         "Energy and mood benefits often appear within 2-3 weeks. Deeper anti-aging support builds over 60-90 days of consistent use.",
     },
     pricing: {
-      small: { count: 60, price: 59 },
-      large: { count: 120, price: 79 },
+      small: { count: 120, price: 110 },
+      large: { count: 3, price: 291.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/longevity-30",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -365,9 +366,8 @@ export const products: Product[] = [
     name: "Divine Longevity 50+",
     series: "Cellular",
     seriesSlug: "cellular",
-    tagline: "Strength Beyond 50",
-    description:
-      "Targeted support for adults 50+ addressing bone density, memory, circulation, and sustained energy.",
+    tagline: "Mature vitality for the active 50s and beyond.",
+    description: "Divine Longevity 50+ is an advanced herbal longevity and strength-support formula created for mature adults who need deeper support for aging, mobility, circulation, immunity, brain health, and recovery. It combines traditional African herbal wisdom with cellular-supportive and antioxidant-rich botanicals to promote graceful and active aging.",
     whyYouNeedIt:
       "At 50 and beyond, vitality, mobility, and clarity stop being givens and start needing protection. Divine Longevity 50+ is built specifically for mature adults who want to stay active, sharp, and resilient. With botanicals supporting joint comfort, antioxidant protection, circulation, and energy, it helps maintain the daily strength and confidence needed to keep enjoying life on your own terms.",
     longDescription:
@@ -432,9 +432,10 @@ export const products: Product[] = [
         "Initial benefits often noticed within 3-4 weeks. Bone and cognitive support deepens over 90-120 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 89 },
+      small: { count: 120, price: 110 },
+      large: { count: 3, price: 291.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/longevity-50",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -463,9 +464,8 @@ export const products: Product[] = [
     name: "Divine CogniBoost Restore",
     series: "Neuro",
     seriesSlug: "neuro",
-    tagline: "Sharpen Your Mind, Elevate Your Focus",
-    description:
-      "A cognitive enhancement formula that sharpens focus, strengthens memory, and builds mental resilience.",
+    tagline: "Sharper focus, memory, and cognitive endurance.",
+    description: "Divine CogniBoost Restore is a premium botanical wellness supplement formulated to support mental clarity, focus, memory performance, cognitive resilience, and daily neurological wellness. Inspired by traditional African herbal wisdom together with globally respected botanical traditions, this formulation was developed for individuals seeking balanced cognitive support for modern mental demands.",
     whyYouNeedIt:
       "If your work demands focus, your memory feels slower than it used to, or you finish the day mentally drained, your brain may need real nutritional support. Divine CogniBoost Restore combines botanicals traditionally used to support cognitive vitality, sharper attention, faster recall, and longer mental endurance.",
     longDescription:
@@ -524,9 +524,10 @@ export const products: Product[] = [
         "Many users notice improved focus within 1-2 weeks. Memory and stress resilience benefits typically develop over 6-8 weeks.",
     },
     pricing: {
-      small: { count: 60, price: 59 },
-      large: { count: 120, price: 89 },
+      small: { count: 120, price: 99 },
+      large: { count: 3, price: 160.99 },
     },
+    bottleSizes: [60, 120],
     imageFolder: "/images/products/cogniboost",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -559,9 +560,8 @@ export const products: Product[] = [
     name: "Divine Nerve Renewal",
     series: "Neuro",
     seriesSlug: "neuro",
-    tagline: "Restore Your Nerve Vitality",
-    description:
-      "A specialized nerve health formula supporting peripheral nerve function, neuroprotection, and sensory recovery.",
+    tagline: "Nerve calm, mobility, and circulation balance.",
+    description: "Divine Nerve Renewal is a premium botanical wellness supplement formulated to support nerve wellness, circulation balance, physical comfort, mobility support, and long-term vitality maintenance. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured support for neurological wellness and active lifestyle performance.",
     whyYouNeedIt:
       "Tingling in your hands or feet, numbness, a buzzing under the skin, or nerves that feel weakened is your nervous system asking for support. Divine Nerve Renewal targets nerve wellness and circulation balance with botanicals traditionally used for nerve calm, mobility, and physical comfort.",
     longDescription:
@@ -626,9 +626,10 @@ export const products: Product[] = [
         "Nerve tissue responds gradually. Initial comfort improvements may appear within 4-6 weeks with continued progress over 90-120 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 109 },
+      small: { count: 120, price: 72 },
+      large: { count: 3, price: 210.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/nerve-renewal",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -657,9 +658,8 @@ export const products: Product[] = [
     name: "Divine Neuro Restore",
     series: "Neuro",
     seriesSlug: "neuro",
-    tagline: "Awaken and Restore Nerve Function",
-    description:
-      "A targeted neuro-reactivation formula for tingling relief, improved nerve signaling, and nervous system calm.",
+    tagline: "Neural reactivation for clarity and mood.",
+    description: "Divine Neuro Restore is a premium nerve-support supplement designed to help nourish, awaken, and restore weakened nerve function. It is created for people experiencing nerve weakness, tingling, numbness, burning sensations, poor nerve signaling, diabetic nerve discomfort, and general nervous system fatigue.",
     whyYouNeedIt:
       "Brain fog, mood dips, fatigue that will not lift, slower coordination. Your nervous system carries more daily stress than almost any other system in your body. Divine Neuro Restore is built to support nerve and neurological reactivation with botanicals traditionally valued for clarity, mood balance, and cognitive endurance.",
     longDescription:
@@ -718,9 +718,10 @@ export const products: Product[] = [
         "Tingling relief may begin within 2-4 weeks. Significant nerve function improvements typically develop over 8-12 weeks.",
     },
     pricing: {
-      small: { count: 60, price: 49.99 },
-      large: { count: 120, price: 69.99 },
+      small: { count: 120, price: 119 },
+      large: { count: 3, price: 305.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/neuro-restore",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -749,9 +750,8 @@ export const products: Product[] = [
     name: "Divine Glucose Balance",
     series: "Metabolic",
     seriesSlug: "metabolic",
-    tagline: "Balance Your Blood Sugar Naturally",
-    description:
-      "A blood sugar management formula supporting healthy glucose metabolism, pancreatic function, and insulin sensitivity.",
+    tagline: "Healthy blood-sugar and metabolic balance.",
+    description: "Divine Glucose Balance is a premium botanical wellness supplement formulated to support healthy blood sugar balance, metabolic wellness, pancreatic function, circulation, and long-term vitality. It draws from African herbal wisdom and global botanical traditions known for supporting glucose metabolism and whole-body restoration.",
     whyYouNeedIt:
       "If your blood-sugar swings leave you crashing after meals, craving sugar in the afternoon, or worrying about prediabetic risk, you need real support. Divine Glucose Balance combines botanicals traditionally valued for healthy glucose metabolism, pancreatic wellness, and steady daily energy.",
     longDescription:
@@ -816,9 +816,10 @@ export const products: Product[] = [
         "Blood sugar support benefits may be noticeable within 2-4 weeks. Consistent use over 60-90 days provides the most comprehensive metabolic support.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 109 },
+      small: { count: 120, price: 99 },
+      large: { count: 3, price: 260 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/glucose-balance",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -851,9 +852,8 @@ export const products: Product[] = [
     name: "Divine Thyroid Balance",
     series: "Metabolic",
     seriesSlug: "metabolic",
-    tagline: "Harmonize Your Metabolism",
-    description:
-      "A thyroid and endocrine support formula that helps regulate metabolism, energy, and hormonal equilibrium.",
+    tagline: "Thyroid and metabolic energy support.",
+    description: "Divine Thyroid Balance is a premium botanical wellness supplement formulated to support metabolic balance, energy wellness, endocrine harmony, vitality maintenance, and healthy lifestyle performance. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured support for balanced daily wellness and long-term vitality.",
     whyYouNeedIt:
       "Fatigue you cannot shake, sluggish metabolism, mood swings, dry skin and hair. These are often signals of a thyroid asking for support. Divine Thyroid Balance combines botanicals traditionally valued for endocrine balance, metabolic energy, and daily vitality.",
     longDescription:
@@ -924,9 +924,10 @@ export const products: Product[] = [
         "Metabolic and energy benefits typically emerge within 3-4 weeks. Thyroid hormone optimization develops over 60-90 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 99 },
+      small: { count: 120, price: 76 },
+      large: { count: 3, price: 199 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/thyroid-balance",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -955,9 +956,8 @@ export const products: Product[] = [
     name: "Divine Belly Fat Balance",
     series: "Metabolic",
     seriesSlug: "metabolic",
-    tagline: "Flatten, Cleanse, Restore",
-    description:
-      "A targeted formula for reducing belly bloat, supporting fat metabolism, and restoring digestive comfort.",
+    tagline: "Belly-fat and metabolic balance.",
+    description: "Divine Belly Fat Balance is a premium metabolic wellness and abdominal fat management formula designed to support healthy weight balance, digestive cleansing, metabolic activation, and internal detoxification. The formula combines thermogenic herbs, digestive-support botanicals, mineral-rich plants, and metabolism-enhancing nutrients traditionally used in African and global herbal medicine systems.",
     whyYouNeedIt:
       "Stubborn belly fat that will not shift with diet alone is usually a metabolic problem, not a willpower problem. Divine Belly Fat Balance targets the digestive and metabolic side of weight balance with botanicals traditionally used for healthy digestion, water balance, and waistline support.",
     longDescription:
@@ -1016,9 +1016,10 @@ export const products: Product[] = [
         "Bloating relief often occurs within the first week. Visible changes in abdominal composition typically develop over 4-8 weeks with consistent use and a balanced diet.",
     },
     pricing: {
-      small: { count: 60, price: 39.99 },
-      large: { count: 120, price: 49.99 },
+      small: { count: 120, price: 60.99 },
+      large: { count: 3, price: 160.99 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/belly-fat-balance",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1047,9 +1048,8 @@ export const products: Product[] = [
     name: "Divine Joint & Bone",
     series: "Mobility",
     seriesSlug: "mobility",
-    tagline: "Move With Strength and Confidence",
-    description:
-      "A comprehensive joint and bone support formula for flexibility, comfort, and structural resilience.",
+    tagline: "Joint, bone, and active mobility support.",
+    description: "Divine Joint & Bone is a premium botanical wellness supplement formulated to support joint comfort, mobility wellness, structural resilience, physical recovery, and healthy aging support. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking long-term support for active movement and physical vitality.",
     whyYouNeedIt:
       "Stiff mornings, achy knees, joints that creak after sitting too long. Joint wellness is the difference between an active life and a limited one. Divine Joint and Bone supports flexibility, structural resilience, and the comfort needed for active aging with botanicals traditionally valued for mobility wellness.",
     longDescription:
@@ -1114,9 +1114,10 @@ export const products: Product[] = [
         "Joint comfort improvements often begin within 2-3 weeks. Structural benefits to bone and cartilage develop over 60-90 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 99 },
+      small: { count: 120, price: 90 },
+      large: { count: 3, price: 250 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/joint-bone",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1145,9 +1146,8 @@ export const products: Product[] = [
     name: "Divine Lumbar Restore",
     series: "Mobility",
     seriesSlug: "mobility",
-    tagline: "Support Your Spine, Reclaim Your Comfort",
-    description:
-      "A spinal wellness formula targeting lower back comfort, disc health, and lumbar flexibility.",
+    tagline: "Lumbar and spinal wellness.",
+    description: "Divine Lumbar Restore is a premium botanical wellness supplement formulated to support spinal wellness, mobility balance, structural resilience, physical comfort, and long-term vitality maintenance. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured support for active movement and healthy lifestyle performance.",
     whyYouNeedIt:
       "Lower-back pain from sitting too long, lifting wrong, or just years of wear is one of the most common reasons adults lose mobility and quality of life. Divine Lumbar Restore is built for spinal and lower-back wellness with botanicals traditionally used to support structural resilience, posture, and recovery.",
     longDescription:
@@ -1212,9 +1212,10 @@ export const products: Product[] = [
         "Initial comfort improvements may appear within 3-4 weeks. Structural spinal support develops over 90 days of consistent use.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 109 },
+      small: { count: 120, price: 120 },
+      large: { count: 3, price: 199 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/lumbar-restore",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1243,9 +1244,8 @@ export const products: Product[] = [
     name: "Divine Vision Support",
     series: "Vision",
     seriesSlug: "vision",
-    tagline: "Protect and Nourish Your Sight",
-    description:
-      "An eye health formula delivering targeted antioxidants and nutrients for lasting visual clarity.",
+    tagline: "Eye comfort and visual wellness.",
+    description: "Divine Vision Support is a premium botanical wellness supplement formulated to support eye wellness, circulation balance, antioxidant protection, visual vitality, and healthy aging support. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured nutritional support for long-term visual wellness and daily lifestyle performance.",
     whyYouNeedIt:
       "Hours of screens, blue light, dry eyes, blurry focus shifts. Your eyes work harder than ever and rarely get nutritional support. Divine Vision Support combines botanicals traditionally valued for eye comfort, antioxidant protection, and visual clarity.",
     longDescription:
@@ -1316,9 +1316,10 @@ export const products: Product[] = [
         "Eye comfort and reduced screen fatigue often improve within 2-3 weeks. Deeper retinal protective benefits build over 60-90 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 99 },
+      small: { count: 120, price: 49 },
+      large: { count: 3, price: 160 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/vision-support",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1347,9 +1348,8 @@ export const products: Product[] = [
     name: "Divine Kidney Restore",
     series: "Detox",
     seriesSlug: "detox",
-    tagline: "Purify From Within",
-    description:
-      "A kidney and urinary health formula supporting filtration, detoxification, and optimal fluid balance.",
+    tagline: "Kidney, urinary, and cleansing support.",
+    description: "Divine Kidney Restore is a premium herbal kidney and urinary wellness supplement designed to support healthy filtration, fluid balance, urinary cleansing, and natural detoxification. It combines traditional African herbal wisdom with modern botanical detox support to help the body remove excess waste and maintain internal balance.",
     whyYouNeedIt:
       "Puffiness, sluggish digestion, low energy, urinary discomfort. Your kidneys quietly handle the body cleansing work, and when they are overloaded, the whole system suffers. Divine Kidney Restore supports kidney wellness, urinary comfort, and natural detoxification with botanicals traditionally valued for cleansing pathways.",
     longDescription:
@@ -1408,9 +1408,10 @@ export const products: Product[] = [
         "Improved urinary comfort and fluid balance may be noticed within 1-2 weeks. Comprehensive kidney support develops over 4-6 weeks.",
     },
     pricing: {
-      small: { count: 60, price: 39.99 },
-      large: { count: 120, price: 49.99 },
+      small: { count: 120, price: 69 },
+      large: { count: 3, price: 160 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/kidney-restore",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1439,9 +1440,8 @@ export const products: Product[] = [
     name: "Divine Vitality",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "Unleash Your Inner Vitality",
-    description:
-      "A premium vitality formula supporting physical energy, reproductive wellness, and confident masculinity.",
+    tagline: "Daily vitality, stamina, and resilience.",
+    description: "Divine Vitality is a premium botanical wellness supplement formulated to support vitality, stamina, circulation wellness, endurance, and intimate wellness balance for both men and women. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured support for active lifestyle vitality and overall wellness maintenance.",
     whyYouNeedIt:
       "If you wake up tired before the day starts, lose motivation by mid-afternoon, and finish the day too drained for the people you love, your body needs more than coffee. Divine Vitality is a daily botanical foundation supporting energy, stamina, mood, and resilience.",
     longDescription:
@@ -1506,9 +1506,10 @@ export const products: Product[] = [
         "Energy and stamina improvements may be noticed within 2-3 weeks. Full vitality benefits develop over 60-90 days of consistent use.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 109 },
+      small: { count: 120, price: 60 },
+      large: { count: 3, price: 150 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/vitality",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1537,9 +1538,8 @@ export const products: Product[] = [
     name: "Divine Womb Renewal",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "Nurture Your Feminine Wellness",
-    description:
-      "A feminine health formula supporting reproductive wellness, hormonal balance, and womanly vitality.",
+    tagline: "Feminine wellness and cycle balance.",
+    description: "Divine Womb Renewal is a premium botanical wellness supplement formulated to support feminine wellness, vitality, circulation balance, restorative wellness, and healthy lifestyle maintenance. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for women seeking structured support for overall feminine wellness and long-term vitality.",
     whyYouNeedIt:
       "Painful cycles, irregular periods, hormonal mood swings, low feminine vitality. Your womb wellness affects far more than a few days a month. Divine Womb Renewal supports feminine wellness, hormonal balance, and reproductive vitality with botanicals traditionally valued in women wellness practices.",
     longDescription:
@@ -1604,9 +1604,10 @@ export const products: Product[] = [
         "Cycle-related benefits may emerge within 1-2 cycles. Comprehensive hormonal and reproductive support develops over 3-4 months.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 99 },
+      small: { count: 120, price: 120 },
+      large: { count: 3, price: 300 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/womb-renewal",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1639,9 +1640,8 @@ export const products: Product[] = [
     name: "Divine Varicose Veins Support",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "Support Healthy Circulation",
-    description:
-      "A circulatory wellness formula supporting vein health, blood flow, and leg comfort.",
+    tagline: "Leg comfort and circulation support.",
+    description: "Divine Varicose Veins Support is a premium botanical wellness supplement formulated to support healthy circulation, vascular wellness, mobility comfort, antioxidant protection, and daily vitality maintenance. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured support for healthy lifestyle circulation and long-term wellness balance.",
     whyYouNeedIt:
       "Heavy legs at the end of the day, visible veins, puffy ankles, discomfort after long standing or sitting. Your circulation is asking for help. Divine Varicose Veins Support targets vein and circulation wellness with botanicals traditionally valued for leg comfort and vascular support.",
     longDescription:
@@ -1712,9 +1712,10 @@ export const products: Product[] = [
         "Leg comfort and reduced heaviness may improve within 2-3 weeks. Vein health and visible circulatory improvement develop over 60-90 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 99 },
+      small: { count: 120, price: 85 },
+      large: { count: 3, price: 270 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/varicose-veins",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1743,9 +1744,8 @@ export const products: Product[] = [
     name: "Divine Fresh Breath",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "Confidence Starts With Fresh Breath",
-    description:
-      "An oral wellness formula targeting bad breath at its source through antibacterial, digestive, and detox pathways.",
+    tagline: "Fresh breath and oral wellness.",
+    description: "Divine Fresh Breath is a premium herbal breath, mouth, stomach, and digestive freshness formula designed to support long-lasting internal and oral cleansing. It targets common sources of bad breath, including mouth bacteria, sluggish digestion, mucus buildup, and internal toxin load.",
     whyYouNeedIt:
       "Persistent bad breath is not just embarrassing, it is a confidence problem in meetings, on dates, and in every close conversation. Divine Fresh Breath works from the inside out, supporting oral wellness, gum comfort, and the digestive freshness that fights breath odour at its source.",
     longDescription:
@@ -1804,9 +1804,10 @@ export const products: Product[] = [
         "Immediate freshening occurs within hours of first use. Lasting gut-related breath improvement develops over 2-3 weeks of consistent use.",
     },
     pricing: {
-      small: { count: 60, price: 34.99 },
-      large: { count: 120, price: 44.99 },
+      small: { count: 120, price: 59 },
+      large: { count: 3, price: 125 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/fresh-breath",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1835,9 +1836,8 @@ export const products: Product[] = [
     name: "Divine Libido Support™",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "Reignite Your Passion Naturally",
-    description:
-      "A natural intimacy formula supporting desire, performance, and sustained confidence.",
+    tagline: "Vitality and intimate-wellness support.",
+    description: "Divine Libido Support is a premium botanical wellness supplement formulated to support vitality, stamina, circulation wellness, endurance, and intimate wellness balance for both men and women. Inspired by traditional African herbal wisdom together with globally respected botanical wellness traditions, this formulation was developed for adults seeking structured support for active lifestyle vitality and overall wellness maintenance.",
     whyYouNeedIt:
       "When stress, age, or lifestyle quietly erodes drive, confidence, and stamina, your relationships, intimacy, and self-image take the hit. Divine Libido Support combines botanicals traditionally valued for vitality, endurance, and intimate-wellness balance.",
     longDescription:
@@ -1908,9 +1908,10 @@ export const products: Product[] = [
         "Energy and desire improvements often appear within 2-3 weeks. Full intimate wellness benefits develop over 60-90 days.",
     },
     pricing: {
-      small: { count: 60, price: 69 },
-      large: { count: 120, price: 109 },
+      small: { count: 120, price: 80 },
+      large: { count: 3, price: 260 },
     },
+    bottleSizes: [60, 120],
     imageFolder: "/images/products/libido",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -1939,9 +1940,8 @@ export const products: Product[] = [
     name: "Divine Blood Booster Pro™",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "Boost Your Blood, Boost Your Life",
-    description:
-      "A blood-building formula supporting red blood cell production, iron levels, and oxygen delivery.",
+    tagline: "Blood nourishment, circulation, and energy.",
+    description: "Divine Blood Booster Pro is a premium botanical blood nourishment and vitality support supplement designed to support healthy blood formation, circulation, oxygen transport, energy restoration, and whole-body vitality. This formulation draws from African herbal medicine, nutrient-dense botanical traditions, and restorative wellness practices traditionally used to strengthen the blood, support recovery, and improve physical resilience.",
     whyYouNeedIt:
       "Constant fatigue, pale complexion, weak immunity, slow recovery. These can be signs your blood needs nourishment. Whether recovering from illness, pregnancy, blood loss, or just running on empty, Divine Blood Booster Pro is built to support healthy blood formation, hemoglobin, circulation, oxygen transport, and energy restoration.",
     longDescription:
@@ -2000,9 +2000,10 @@ export const products: Product[] = [
         "Improved energy from better oxygen delivery may be noticed within 1-2 weeks. Measurable blood count improvements typically develop over 4-8 weeks.",
     },
     pricing: {
-      small: { count: 60, price: 49 },
-      large: { count: 120, price: 79 },
+      small: { count: 120, price: 99 },
+      large: { count: 3, price: 260 },
     },
+    bottleSizes: [60, 120],
     imageFolder: "/images/products/blood-booster",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -2035,9 +2036,8 @@ export const products: Product[] = [
     name: "Divine GLUT4 Metabolic Activation",
     series: "Metabolic",
     seriesSlug: "metabolic",
-    tagline: "Activate Your Cellular Energy Naturally",
-    description:
-      "An advanced glucose metabolism formula targeting GLUT4 transporter activation for efficient cellular energy uptake.",
+    tagline: "GLUT4 metabolic activation.",
+    description: "Divine GLUT4 Metabolic Activation is a premium metabolic restoration capsule designed to support healthy glucose transport, insulin sensitivity, pancreatic wellness, cellular energy production, and metabolic balance.",
     whyYouNeedIt:
       "If you have tried diet after diet and still feel stuck with blood-sugar swings, stubborn weight, low energy after meals, the missing piece is usually how efficiently your cells use glucose. Divine GLUT4 Metabolic Activation targets the cellular glucose-transport pathway with botanicals traditionally valued for insulin sensitivity and metabolic energy.",
     longDescription:
@@ -2102,9 +2102,10 @@ export const products: Product[] = [
         "Reduced post-meal energy crashes may be noticed within 1-2 weeks. Comprehensive metabolic optimization develops over 60-90 days.",
     },
     pricing: {
-      small: { count: 60, price: 59 },
-      large: { count: 120, price: 89 },
+      small: { count: 120, price: 120 },
+      large: { count: 3, price: 299.99 },
     },
+    bottleSizes: [60, 120],
     imageFolder: "/images/products/glut4",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -2137,9 +2138,8 @@ export const products: Product[] = [
     name: "Divine Female Fertility Renewal System™",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "90-Day Precision Botanical Program for Women",
-    description:
-      "A comprehensive 90-day botanical wellness program supporting feminine reproductive health, hormonal balance, vitality, and overall feminine wellness.",
+    tagline: "90-Day Precision Botanical Program for women.",
+    description: "Divine Female Fertility Renewal System is a comprehensive botanical program that draws on African herbal, Ayurvedic, and modern wellness traditions to support women's reproductive wellness, hormonal balance, vitality, and overall feminine health.",
     whyYouNeedIt:
       "For women trying to conceive, or simply wanting reproductive wellness, balanced cycles, and feminine vitality, the body needs real, nourishing botanical support. Divine Female Fertility Renewal is a 90-day precision program supporting hormonal balance, ovulation, womb conditioning, and reproductive vitality. It is for women who want their fertility journey supported with traditional wisdom and structured care.",
     longDescription:
@@ -2204,9 +2204,10 @@ export const products: Product[] = [
         "Hormonal and cycle-related benefits typically emerge within 4-6 weeks. Full program benefits develop over the complete 90-day course.",
     },
     pricing: {
-      small: { count: 60, price: 78 },
-      large: { count: 120, price: 130 },
+      small: { count: 120, price: 78 },
+      large: { count: 3, price: 160 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/female-fertility",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -2235,9 +2236,8 @@ export const products: Product[] = [
     name: "Divine Male Fertility Renewal System™",
     series: "Wellness",
     seriesSlug: "wellness",
-    tagline: "90-Day Precision Botanical Program for Men",
-    description:
-      "A professional botanical wellness program developed to support male reproductive wellness, vitality, stamina, and overall masculine health.",
+    tagline: "90-Day Precision Botanical Program for men.",
+    description: "Divine Male Fertility Renewal System is a professional botanical wellness formulation developed to support male reproductive wellness, vitality, stamina, and overall masculine health. This advanced wellness program combines traditional botanical wisdom with modern nutritional support principles to help men maintain healthy lifestyle habits connected to reproductive vitality and long-term wellness.",
     whyYouNeedIt:
       "Low sperm count, weak motility, low testosterone, weak drive. Male fertility issues affect roughly one in seven couples, and they are rarely addressed openly. Divine Male Fertility Renewal is a 90-day precision program supporting sperm wellness, motility, testosterone balance, libido, and overall vitality. It is for men who want to take real action on reproductive wellness and the confidence that comes with it.",
     longDescription:
@@ -2302,9 +2302,10 @@ export const products: Product[] = [
         "Vitality and stamina improvements may appear within 3-4 weeks. Full program benefits develop over the complete 90-day course.",
     },
     pricing: {
-      small: { count: 60, price: 78 },
-      large: { count: 120, price: 130 },
+      small: { count: 120, price: 78 },
+      large: { count: 3, price: 160 },
     },
+    bottleSizes: [120],
     imageFolder: "/images/products/male-fertility",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -2333,9 +2334,8 @@ export const products: Product[] = [
     name: "Divine Respiratory Shield",
     series: "Detox",
     seriesSlug: "detox",
-    tagline: "Clear Breathing, Calmer Airways, Lung Resilience",
-    description:
-      "A premium botanical respiratory wellness formula supporting healthy breathing, lung wellness, airway comfort, mucus balance, and respiratory vitality.",
+    tagline: "Clear breathing, calmer airways, lung resilience.",
+    description: "Divine Respiratory Shield is a premium botanical respiratory wellness formula that draws on traditional African and globally respected herbal traditions to support healthy breathing, lung wellness, airway comfort, mucus balance, and respiratory vitality.",
     whyYouNeedIt:
       "If you find yourself short of breath sooner than you used to, clearing your throat constantly, or struggling through allergy and cold seasons, your lungs and airways may need real botanical support. Divine Respiratory Shield combines herbs traditionally valued for clear breathing, lung wellness, mucus balance, and respiratory immune defense. It is for adults who want to breathe freely at the gym, on a long walk, through allergy season, and protect lung wellness for the long haul.",
     longDescription:
@@ -2401,8 +2401,9 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 60, price: 69 },
-      large: { count: 180, price: 200 },
+      large: { count: 3, price: 200 },
     },
+    bottleSizes: [60],
     imageFolder: "/images/products/respiratory-shield",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -2431,9 +2432,8 @@ export const products: Product[] = [
     name: "Divine GERD Respiratory System",
     series: "Detox",
     seriesSlug: "detox",
-    tagline: "Calm the Gut, Soothe the Throat, Restore Breathing",
-    description:
-      "A premium gastrointestinal and respiratory wellness formula combining soothing herbs to support healthy acid balance, throat comfort, digestive calmness, and airway wellness.",
+    tagline: "Calm the gut, soothe the throat, restore breathing.",
+    description: "Divine GERD Respiratory System is a premium gastrointestinal and respiratory wellness formula that combines soothing mucilage-rich herbs and respiratory-supportive botanicals to support healthy acid balance, throat comfort, digestive calmness, airway wellness, and breathing comfort associated with reflux-related irritation.",
     whyYouNeedIt:
       "Acid reflux at night, heartburn after meals, a throat that will not stop feeling irritated, breathing that feels heavy after eating. GERD does not just live in the stomach, it reaches the throat, the airways, and your sleep. Divine GERD Respiratory System combines soothing mucilage-rich herbs and respiratory-supportive botanicals to help calm the gut and restore comfortable breathing. It is for adults tired of reaching for antacids and ready to address the gut-airway connection at its source.",
     longDescription:
@@ -2500,8 +2500,9 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 60, price: 69 },
-      large: { count: 180, price: 200 },
+      large: { count: 3, price: 200 },
     },
+    bottleSizes: [60],
     imageFolder: "/images/products/gerd-respiratory",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
@@ -2518,6 +2519,67 @@ export const products: Product[] = [
       {
         q: "How is this different from Divine Respiratory Shield?",
         a: "GERD Respiratory addresses the gut-airway connection with digestive-focused botanicals. Respiratory Shield targets the lungs and airways directly for breathing wellness.",
+      },
+    ],
+  },
+  {
+    id: "ulcer-care",
+    name: "Divine Ulcer Care",
+    series: "Detox",
+    seriesSlug: "detox",
+    tagline: "Gastric calm, stomach-lining protection, digestive restoration.",
+    description:
+      "Divine Ulcer Care is a premium botanical gastric and digestive wellness formula that draws on mucilage-rich plants and traditional soothing herbs to support stomach-lining comfort, healthy acid balance, and long-term digestive restoration.",
+    whyYouNeedIt:
+      "If you live with stomach burning after meals, gastric irritation, frequent indigestion, or a stomach lining that feels constantly under attack, your gut needs real botanical support, not another antacid. Divine Ulcer Care combines mucilage-rich plants and traditional soothing herbs to help calm gastric irritation, protect the stomach lining, and restore healthy acid balance. It is for adults ready to address gastric discomfort at its source and rebuild long-term digestive comfort.",
+    longDescription:
+      "Divine Ulcer Care brings together soothing, mucilage-rich botanicals long valued for digestive comfort. Bryophyllum and Aloe vera provide calming support for irritated tissue, while Okra and Jute leaves deliver protective mucilage that coats the stomach lining. Baobab adds antioxidant nourishment and Licorice root supports a healthy acid balance, together promoting gastric calm and long-term digestive restoration.",
+    benefits: [
+      "Supports stomach-lining comfort",
+      "Helps soothe gastric irritation",
+      "Supports healthy acid balance",
+      "Encourages digestive healing support",
+      "Helps reduce burning sensations after meals",
+    ],
+    suitableFor: [
+      "Adults dealing with stomach burning, gastric irritation, or ulcer-related discomfort.",
+      "Individuals seeking stomach-lining and acid-balance support.",
+      "People recovering from frequent indigestion or gastric flare-ups.",
+      "Wellness-conscious adults building long-term digestive routines.",
+    ],
+    ingredients: [
+      { name: "Bryophyllum", latin: "Bryophyllum pinnatum", description: "Traditional botanical supporting tissue soothing and a healthy inflammatory response in the digestive tract." },
+      { name: "Okra", latin: "Abelmoschus esculentus", description: "Provides mucilage that coats and protects the stomach lining from acid irritation." },
+      { name: "Jute Leaves", latin: "Corchorus olitorius", description: "Provides soothing mucilaginous support for the digestive tract." },
+      { name: "Baobab", latin: "Adansonia digitata", description: "Antioxidant-rich fruit supporting nutritional wellness and digestive resilience." },
+      { name: "Aloe Vera", latin: "Aloe barbadensis", description: "Soothing botanical traditionally used to calm and support the stomach lining." },
+      { name: "Licorice Root", latin: "Glycyrrhiza glabra", description: "Provides glycyrrhizin supporting stomach-lining wellness and a healthy acid balance." },
+    ],
+    dosage: {
+      standard:
+        "Take 2 capsules in the morning and 2 capsules in the evening with food and water. Daily total: 4 capsules.",
+      advanced:
+        "Take 1 capsule 30 minutes before each main meal for targeted stomach-lining support.",
+      timeline:
+        "Gastric comfort may improve within 1-2 weeks. Comprehensive stomach-lining and digestive support develops over 4-6 weeks.",
+    },
+    pricing: {
+      small: { count: 60, price: 69 },
+      large: { count: 3, price: 200 },
+    },
+    bottleSizes: [60],
+    imageFolder: "/images/products/gerd-respiratory",
+    signatureColor: "#1B2A4A",
+    accentColor: "#D4A017",
+    categoryIcon: "Activity",
+    faq: [
+      {
+        q: "How is this different from Divine GERD Respiratory System?",
+        a: "Ulcer Care focuses on stomach-lining protection and gastric comfort. GERD Respiratory addresses the combined gut-airway connection for reflux that reaches the throat and breathing.",
+      },
+      {
+        q: "When should I take it?",
+        a: "Taking with food supports post-meal comfort. For targeted support, 1 capsule before each main meal may be used.",
       },
     ],
   },
@@ -2590,7 +2652,7 @@ export const series: Series[] = [
       "Kidney and detoxification support for internal purification, fluid balance, and waste elimination.",
     icon: "Droplets",
     color: "#1B2A4A",
-    productIds: ["kidney-restore", "respiratory-shield", "gerd-respiratory"],
+    productIds: ["kidney-restore", "respiratory-shield", "gerd-respiratory", "ulcer-care"],
   },
   {
     name: "Wellness",

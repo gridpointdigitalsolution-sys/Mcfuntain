@@ -174,11 +174,12 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   const { addItem } = useCart();
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // ----- Pricing math (Premium = multi-bottle bundle) ----------------------
+  // ----- Pricing math (Standard = 1 bottle · Premium = Pack of 3 bottles) ----
   const { small, large } = product.pricing;
-  const bottlesInBundle = Math.max(2, Math.round(large.count / small.count));
+  // large.count now holds the NUMBER OF BOTTLES in the premium bundle (3).
+  const bottlesInBundle = large.count;
   // What the bundle would cost bought as singles vs. its actual price
-  const equivalentSinglesPrice = small.price * (large.count / small.count);
+  const equivalentSinglesPrice = small.price * bottlesInBundle;
   const savePct = Math.max(
     0,
     Math.round((1 - large.price / equivalentSinglesPrice) * 100),
@@ -435,7 +436,10 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                       Standard
                     </div>
                     <div className="mt-1.5 text-sm font-semibold text-ink">
-                      1 Bottle · {small.count} Capsules
+                      1 Bottle ·{' '}
+                      {product.bottleSizes && product.bottleSizes.length > 1
+                        ? `${product.bottleSizes.join(' or ')} Capsules`
+                        : `${small.count} Capsules`}
                     </div>
                     <div className="mt-2 font-heading text-2xl font-bold text-ink">
                       ${small.price}
@@ -468,7 +472,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                       Premium
                     </div>
                     <div className="mt-1.5 text-sm font-semibold text-ink">
-                      {bottlesInBundle} Bottles · {large.count} Capsules
+                      {bottlesInBundle} Bottles · Pack of {bottlesInBundle}
                     </div>
                     <div className="mt-2 flex items-baseline gap-2">
                       <span className="font-heading text-2xl font-bold text-ink">

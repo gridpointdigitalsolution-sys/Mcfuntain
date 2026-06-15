@@ -376,7 +376,9 @@ function QuickViewBody({
                         {isPremium ? 'Premium' : 'Standard'}
                       </span>
                       <span className="mt-1 block text-xs text-muted-light">
-                        {tier.count} capsules
+                        {isPremium
+                          ? '3 bottles · Pack of 3'
+                          : `1 bottle${product.bottleSizes && product.bottleSizes.length > 1 ? ` · ${product.bottleSizes.join(' or ')} caps` : ` · ${product.pricing.small.count} caps`}`}
                       </span>
                       <span className="mt-1.5 block font-heading text-xl font-bold text-ink">
                         ${tier.price}
