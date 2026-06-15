@@ -2568,7 +2568,7 @@ export const products: Product[] = [
       large: { count: 3, price: 200 },
     },
     bottleSizes: [60],
-    imageFolder: "/images/products/gerd-respiratory",
+    imageFolder: "/images/products/ulcer-care",
     signatureColor: "#1B2A4A",
     accentColor: "#D4A017",
     categoryIcon: "Activity",
