@@ -43,7 +43,7 @@ export default function BotanicalsShowcase() {
               whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 1, ease: EASE }}
-              className="relative h-[460px] w-[400px] max-w-[94%]"
+              className="relative h-[600px] w-screen max-w-none -my-6 overflow-hidden"
             >
               <motion.div
                 animate={{ y: [0, -12, 0], scale: [1, 1.05, 1] }}
@@ -54,8 +54,8 @@ export default function BotanicalsShowcase() {
                   src="/images/hero/libido-support.webp"
                   alt="McFuntain Divine Libido Support"
                   fill
-                  sizes="300px"
-                  className="object-contain drop-shadow-[0_30px_55px_rgba(27,42,74,0.4)]"
+                  sizes="840px"
+                  className="object-cover object-[36%_50%] drop-shadow-[0_30px_55px_rgba(27,42,74,0.4)]"
                 />
               </motion.div>
             </motion.div>

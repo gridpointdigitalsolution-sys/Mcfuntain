@@ -4,12 +4,14 @@ import {
   useState,
   useMemo,
   useEffect,
+  useRef,
   Suspense,
 } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
+  ChevronRight,
   X,
   Eye,
   Star,
@@ -481,6 +483,8 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
   const [sortOpen, setSortOpen] = useState(false);
   const [view, setView] = useState<ViewMode>('comfort');
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const pillsRef = useRef<HTMLDivElement>(null);
+  const scrollPills = () => pillsRef.current?.scrollBy({ left: 200, behavior: 'smooth' });
 
   // Honour ?series= query param — sync during render when it changes, so the
   // user can still pick other pills afterward. Uses the React-recommended
@@ -547,8 +551,12 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
           {/* ============================================================ */}
           <div className="sticky top-[64px] z-30 -mx-5 mt-8 bg-cream/95 px-5 py-4 backdrop-blur-md lg:top-[80px]">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              {/* Series pills — horizontal scroll on mobile */}
-              <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] lg:mx-0 lg:flex-wrap lg:px-0 [&::-webkit-scrollbar]:hidden">
+              {/* Series pills — horizontal scroll on mobile, with swipe affordance */}
+              <div className="relative lg:flex-1">
+                <p className="lg:hidden mb-1.5 flex items-center justify-end gap-1 pr-1 text-[11px] font-bold uppercase tracking-wider text-gold-deep">
+                  Swipe<ChevronRight className="h-3.5 w-3.5" strokeWidth={3} />
+                </p>
+                <div ref={pillsRef} className="-mx-5 flex gap-2 overflow-x-auto scroll-smooth px-5 pb-1 pr-12 [scrollbar-width:none] lg:mx-0 lg:flex-wrap lg:px-0 lg:pr-0 [&::-webkit-scrollbar]:hidden">
                 <button
                   type="button"
                   onClick={() => setActiveSeries('all')}
@@ -585,6 +593,17 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
                     </button>
                   );
                 })}
+                </div>
+                {/* mobile scroll affordance: right fade + tap-to-scroll chevron */}
+                <div className="lg:hidden pointer-events-none absolute right-0 top-6 bottom-1 w-14 bg-gradient-to-l from-cream via-cream/85 to-transparent" />
+                <button
+                  type="button"
+                  aria-label="Scroll series right for more"
+                  onClick={scrollPills}
+                  className="lg:hidden absolute right-0 top-[62%] -translate-y-1/2 grid place-items-center h-8 w-8 rounded-full bg-navy text-white shadow-[0_5px_14px_-4px_rgba(27,42,74,0.65)] active:scale-95"
+                >
+                  <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+                </button>
               </div>
 
               {/* Count + view toggle + sort */}

@@ -98,7 +98,7 @@ export default function PremiumOfferBanner() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1.0, ease: EASE, delay: 0.2 }}
-            className="relative md:hidden h-[500px] -mt-4 mb-2 mx-auto w-[440px] max-w-[96%] z-10"
+            className="relative md:hidden h-[600px] -mt-6 -mb-2 left-1/2 -translate-x-1/2 w-screen max-w-none overflow-hidden z-10"
           >
             <motion.div
               animate={{ y: [0, -10, 0], scale: [1, 1.05, 1] }}
@@ -109,8 +109,8 @@ export default function PremiumOfferBanner() {
                 src="/images/hero/belly-fat-balance.webp"
                 alt="McFuntain Divine Belly Fat Balance — Premium Package"
                 fill
-                sizes="280px"
-                className="object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)]"
+                sizes="840px"
+                className="object-cover object-[29%_50%] drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)]"
               />
             </motion.div>
           </motion.div>

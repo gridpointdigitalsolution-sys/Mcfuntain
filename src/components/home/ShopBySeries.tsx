@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -132,6 +132,8 @@ export default function ShopBySeries({
 }) {
   const [active, setActive] = useState(series[0].slug);
   const reduce = useReducedMotion();
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const scrollTabs = () => tabsRef.current?.scrollBy({ left: 200, behavior: 'smooth' });
 
   const activeSeries = series.find((s) => s.slug === active) ?? series[0];
   const activeProducts = activeSeries.productIds
@@ -151,9 +153,15 @@ export default function ShopBySeries({
         />
 
         {/* TABS */}
-        <div className="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto no-scrollbar">
-          <div className="flex gap-2.5 sm:flex-wrap sm:justify-center min-w-max sm:min-w-0 pb-2">
-            {series.map((s) => {
+        <div className="relative">
+          {/* mobile-only "swipe for more" hint */}
+          <p className="sm:hidden mb-2 flex items-center justify-end gap-1.5 pr-1 text-[11px] font-bold uppercase tracking-wider text-gold-deep">
+            Swipe for more
+            <ChevronRight className="w-3.5 h-3.5" strokeWidth={3} />
+          </p>
+          <div ref={tabsRef} className="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto no-scrollbar scroll-smooth">
+            <div className="flex gap-2.5 sm:flex-wrap sm:justify-center min-w-max sm:min-w-0 pb-2 pr-12 sm:pr-0">
+              {series.map((s) => {
               const Icon = ICONS[s.icon] ?? Heart;
               const isActive = s.slug === active;
               return (
@@ -185,8 +193,21 @@ export default function ShopBySeries({
                   </span>
                 </button>
               );
-            })}
+              })}
+            </div>
           </div>
+          {/* mobile scroll affordance: right fade + tap-to-scroll chevron */}
+          <div className="sm:hidden pointer-events-none absolute right-0 top-7 bottom-2 w-16 bg-gradient-to-l from-cream via-cream/85 to-transparent" />
+          <motion.button
+            type="button"
+            aria-label="Scroll series right for more"
+            onClick={scrollTabs}
+            animate={reduce ? undefined : { x: [0, 5, 0] }}
+            transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+            className="sm:hidden absolute right-1 top-[60%] -translate-y-1/2 grid place-items-center h-9 w-9 rounded-full bg-navy text-white shadow-[0_6px_18px_-4px_rgba(27,42,74,0.65)] active:scale-95"
+          >
+            <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+          </motion.button>
         </div>
 
         {/* active series description */}

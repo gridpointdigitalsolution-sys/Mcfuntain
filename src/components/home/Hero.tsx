@@ -14,6 +14,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  useReducedMotion,
   type Variants,
 } from 'framer-motion';
 import { Oswald } from 'next/font/google';
@@ -60,6 +61,11 @@ const socials = [
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
+/* Faint cinematic background video (opt-in via the videoBg prop).
+   Placeholder asset — swap to a licensed forest/botanical clip we host before going live. */
+const HERO_VIDEO_URL =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4';
+
 /* cinematic stagger for the text block */
 const textWrap: Variants = {
   hidden: {},
@@ -102,10 +108,12 @@ function GoldLetters({ text }: { text: string }) {
 }
 
 /* ---- Component ----------------------------------------------------- */
-export default function Hero() {
+export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
   const [[index, dir], setState] = useState<[number, number]>([0, 1]);
   const [paused, setPaused] = useState(false);
   const slide = slides[index];
+  const reduceMotion = useReducedMotion();
+  const showVideo = videoBg && !reduceMotion;
 
   const go = useCallback((d: number) => setState(([i]) => [(i + d + slides.length) % slides.length, d]), []);
   const jump = useCallback((to: number) => setState(([i]) => [to, to > i ? 1 : -1]), []);
@@ -149,6 +157,30 @@ export default function Hero() {
       <div className="absolute inset-0">
         {/* exact option-1 background: flat dark-navy diagonal gradient, full width (left + right) */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(120deg,#000814 0%,#0a1428 55%,#1B2A4A 100%)' }} />
+
+        {/* OPTIONAL faint cinematic video — sits over the navy base, under the gold bloom.
+            Kept very subtle + darkened so navy stays dominant and all text/layers read clearly. */}
+        {showVideo && (
+          <>
+            <video
+              className="absolute inset-0 h-full w-full object-cover opacity-[0.30] pointer-events-none"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+            >
+              <source src={HERO_VIDEO_URL} type="video/mp4" />
+            </video>
+            {/* navy tint to darken the clip + lock the brand color over it */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'linear-gradient(120deg, rgba(0,8,20,0.55) 0%, rgba(10,20,40,0.42) 55%, rgba(27,42,74,0.40) 100%)' }}
+            />
+          </>
+        )}
+
         {/* warm gold bloom behind bottle (parallax) */}
         <motion.div
           className="absolute right-[8%] top-1/2 -translate-y-1/2 w-[54vw] max-w-[820px] aspect-square rounded-full blur-[110px] mix-blend-screen pointer-events-none"
