@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import Disclaimer from '@/components/ui/Disclaimer';
+import ProductManualSection from '@/components/product/ProductManualSection';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/data/products';
 
@@ -953,6 +954,11 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
           </div>
         </div>
       </section>
+
+      {/* ================================================================ */}
+      {/*  Read the Full Product Manual                                     */}
+      {/* ================================================================ */}
+      <ProductManualSection productId={product.id} productName={product.name} />
 
       {/* ================================================================ */}
       {/*  Related Products                                                 */}

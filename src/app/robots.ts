@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/cart',
+      disallow: ['/cart', '/mcfuntain-private-product-vault', '/api/', '/studio'],
     },
     sitemap: 'https://mcfuntain.com/sitemap.xml',
   };

@@ -1,0 +1,32 @@
+﻿McFuntain PDF rename report
+Generated: 2026-06-15
+Mode: COPY (originals untouched) -> public/pdfs + root pdfs
+----------------------------------------------------------------------
+OK    [mITO\MIto.pdf] -> Divine-Mitochondria-Energy-Manual.pdf
+OK    [Divine Stem Cell Renewal\Divine Stem Cell Renewal.pdf] -> Divine-Stem-Cells-Manual.pdf
+OK    [Divine Longevity 30+\Divine Longevity 30+.pdf] -> Divine-Longevity-30Plus-Manual.pdf
+OK    [Divine Longevity 50+\Divine Longevity 50+.pdf] -> Divine-Longevity-50Plus-Manual.pdf
+OK    [2 Cogniboost\Divine CogniBoost Restore.pdf] -> Divine-CogniBoost-Restore-Manual.pdf
+OK    [Divine Nerve Renewal\Divine Nerve Renewal.pdf] -> Divine-Nerve-Renewal-Manual.pdf
+OK    [Divine Neuro Restore\Divine Neuro Restore.pdf] -> Divine-Neuro-Restore-Manual.pdf
+OK    [Divine Glucose Balance\Divine Glucose Balance.pdf] -> Divine-Glucose-Balance-Manual.pdf
+OK    [Divine Thyroid Balance\Divine Thyroid Balance.pdf] -> Divine-Thyroid-Balance-Manual.pdf
+OK    [Belly Fat Balance\Belly Fat Balance.pdf] -> Divine-Belly-Fat-Balance-Manual.pdf
+OK    [Joint & Bone\Joint & Bone.pdf] -> Divine-Joint-and-Bone-Manual.pdf
+OK    [Divine Lumbar Restore\Divine Lumbar Restore.pdf] -> Divine-Lumbar-Restore-Manual.pdf
+OK    [Vision Support\Vision Support.pdf] -> Divine-Vision-Support-Manual.pdf
+OK    [Kidney Restore\Kidney Restore.pdf] -> Divine-Kidney-Restore-Manual.pdf
+OK    [Divine Vitality\Divine Vitality.pdf] -> Divine-Vitality-Manual.pdf
+OK    [Womb Renewal\Womb Renewal.pdf] -> Divine-Womb-Renewal-Manual.pdf
+OK    [Varicose Veins Support\Varicose Veins Support.pdf] -> Divine-Varicose-Veins-Support-Manual.pdf
+OK    [Fresh Breath\Fresh Breath.pdf] -> Divine-Fresh-Breath-Manual.pdf
+OK    [Libido\Libido.pdf] -> Divine-Libido-Support-Manual.pdf
+OK    [Glut4\Glut4.pdf] -> Divine-GLUT4-Metabolic-Activation-Manual.pdf
+OK    [Divine Female Fertility Renewal System\Divine Female Fertility Renewal System.pdf] -> Divine-Female-Fertility-Renewal-Manual.pdf
+OK    [Divine Male Fertility Renewal System\Divine male Fertility Renewal System.pdf] -> Divine-Male-Fertility-Renewal-Manual.pdf
+OK    [Blood Booster Pro\Blood Booster Pro.pdf] -> Divine-Blood-Booster-Pro-Manual.pdf
+OK    [Divine Respiratory shield\Divine Respiratory shield.pdf] -> Divine-Respiratory-Shield-Manual.pdf
+OK    [Divine  GERD & Respiratory\Divine  GERD & Respiratory.pdf] -> Divine-GERD-Respiratory-System-Manual.pdf
+OK    [Divine ULCER Care\Divine ULCER Care.pdf] -> Divine-Ulcer-Care-Manual.pdf
+----------------------------------------------------------------------
+Copied: 26   Skipped: 0
