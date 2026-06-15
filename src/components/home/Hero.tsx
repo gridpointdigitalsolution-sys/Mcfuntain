@@ -20,7 +20,7 @@ import {
 import { Oswald } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const oswald = Oswald({ subsets: ['latin'], weight: ['500', '600', '700'] });
@@ -115,6 +115,35 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
   const reduceMotion = useReducedMotion();
   const showVideo = videoBg && !reduceMotion;
 
+  /* ---- continuous fade loop (herb backdrop) ----
+     Native `loop` keeps playback unbroken (no stop/blink at the seam). A small
+     rAF only softens the very start/end with a quick fade so the wrap is smooth,
+     never a hard cut and never a pause. BASE_OPACITY tuned up for visibility
+     while the navy wash keeps the brand colour dominant. */
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (!showVideo) return;
+    const v = videoRef.current;
+    if (!v) return;
+    const FADE_S = 0.6;
+    const BASE_OPACITY = 0.62;
+    let raf = 0;
+    const tick = () => {
+      const d = v.duration;
+      const t = v.currentTime;
+      if (d && Number.isFinite(d)) {
+        let o = BASE_OPACITY;
+        if (t < FADE_S) o = BASE_OPACITY * (t / FADE_S);
+        else if (t > d - FADE_S) o = BASE_OPACITY * Math.max(0, (d - t) / FADE_S);
+        v.style.opacity = String(o);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    void v.play().catch(() => {});
+    raf = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(raf); };
+  }, [showVideo]);
+
   const go = useCallback((d: number) => setState(([i]) => [(i + d + slides.length) % slides.length, d]), []);
   const jump = useCallback((to: number) => setState(([i]) => [to, to > i ? 1 : -1]), []);
 
@@ -158,12 +187,29 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
         {/* exact option-1 background: flat dark-navy diagonal gradient, full width (left + right) */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(120deg,#000814 0%,#0a1428 55%,#1B2A4A 100%)' }} />
 
-        {/* OPTIONAL faint cinematic video — sits over the navy base, under the gold bloom.
-            Kept very subtle + darkened so navy stays dominant and all text/layers read clearly. */}
+        {/* OPTIONAL faint cinematic herb video — RIGHT SIDE ONLY (behind bottle + CTA).
+            Confined to the right ~58%, with a left→right mask so it dissolves into
+            the flat navy on the left half (copy stays on clean navy). Seamless
+            fade-in/out loop handled by the effect above. Navy tint keeps brand colour. */}
         {showVideo && (
-          <>
+          <div
+            className="absolute pointer-events-none inset-x-0 top-0 h-[56%] lg:inset-y-0 lg:left-auto lg:right-0 lg:top-0 lg:bottom-0 lg:h-auto lg:w-[58%]"
+            style={{
+              // Symmetric edge-fade (left+right) so it dissolves into navy at the
+              // screen edges (mobile, centred) AND on the left half (desktop).
+              // Vertical fade dies it out before the text block below.
+              maskImage:
+                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 20%, black 42%, black 60%, rgba(0,0,0,0.5) 82%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 72%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 20%, black 42%, black 60%, rgba(0,0,0,0.5) 82%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 72%, transparent 100%)',
+              maskComposite: 'intersect',
+              WebkitMaskComposite: 'source-in',
+            }}
+          >
             <video
-              className="absolute inset-0 h-full w-full object-cover opacity-[0.30] pointer-events-none"
+              ref={videoRef}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ opacity: 0 }}
               autoPlay
               muted
               loop
@@ -173,12 +219,12 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
             >
               <source src={HERO_VIDEO_URL} type="video/mp4" />
             </video>
-            {/* navy tint to darken the clip + lock the brand color over it */}
+            {/* navy wash over the clip → locks brand colour while letting the loop read */}
             <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(120deg, rgba(0,8,20,0.55) 0%, rgba(10,20,40,0.42) 55%, rgba(27,42,74,0.40) 100%)' }}
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(120deg, rgba(7,14,31,0.40) 0%, rgba(10,20,40,0.26) 50%, rgba(27,42,74,0.18) 100%)' }}
             />
-          </>
+          </div>
         )}
 
         {/* warm gold bloom behind bottle (parallax) */}
@@ -332,7 +378,7 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
             </motion.div>
 
             {/* BOTTLE — giant, parallax, spring swing-in, reflection */}
-            <motion.div className="relative z-10 w-[116%] max-w-[760px] sm:w-full sm:max-w-[800px] lg:max-w-[1320px] xl:max-w-[1520px] aspect-square" style={{ x: bottleX, y: bottleY }}>
+            <motion.div className="relative z-10 w-[132%] max-w-[860px] sm:w-full sm:max-w-[820px] lg:max-w-[1320px] xl:max-w-[1520px] aspect-square" style={{ x: bottleX, y: bottleY }}>
               <AnimatePresence custom={dir}>
                 <motion.div
                   key={slide.slug}
@@ -384,7 +430,7 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
               <motion.div key={`price-${slide.slug}`}
                 initial={{ opacity: 0, scale: 0.7, rotate: -10 }} animate={{ opacity: 1, scale: 1, rotate: -6 }} exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.5, delay: 0.35, ease: EASE }}
-                className="absolute z-30 top-[16%] right-[3%] grid place-items-center w-24 h-24 sm:w-28 sm:h-28 lg:w-36 lg:h-36 xl:w-40 xl:h-40 bg-gold text-ink shadow-[0_18px_45px_-10px_rgba(212,160,23,0.75)]">
+                className="absolute z-30 top-[6%] right-[4%] sm:top-[10%] lg:top-[16%] lg:right-[3%] grid place-items-center w-24 h-24 sm:w-28 sm:h-28 lg:w-36 lg:h-36 xl:w-40 xl:h-40 bg-gold text-ink shadow-[0_18px_45px_-10px_rgba(212,160,23,0.75)]">
                 <div className="text-center leading-none">
                   <span className={`${oswald.className} block text-[9px] sm:text-[10px] lg:text-xs uppercase tracking-[0.22em] font-semibold`}>From</span>
                   <span className={`${oswald.className} block font-bold text-xl sm:text-2xl lg:text-[2rem] xl:text-[2.4rem] mt-1`}>{slide.price}</span>

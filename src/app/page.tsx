@@ -25,7 +25,7 @@ export default async function Home() {
   const [products, series] = await Promise.all([getProducts(), getAllSeries()]);
   return (
     <>
-      <Hero />
+      <Hero videoBg />
       <StatsBar />
       <BotanicalsShowcase />
       <PremiumOfferBanner />
