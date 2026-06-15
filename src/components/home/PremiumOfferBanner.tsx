@@ -98,11 +98,11 @@ export default function PremiumOfferBanner() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1.0, ease: EASE, delay: 0.2 }}
-            className="relative md:hidden h-[420px] -mt-2 mb-2 mx-auto w-[360px] max-w-[88%] z-10"
+            className="relative md:hidden h-[500px] -mt-4 mb-2 mx-auto w-[440px] max-w-[96%] z-10"
           >
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              animate={{ y: [0, -10, 0], scale: [1, 1.05, 1] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
               className="relative w-full h-full"
             >
               <Image

@@ -39,12 +39,12 @@ type Slide = {
 };
 
 const slides: Slide[] = [
-  { slug: 'libido-support', series: 'Wellness Series', eyebrow: 'Reignite the Fire', headPre: 'Reclaim Stamina', headAccent: '& Desire', sub: 'Vitality, stamina and circulation support engineered for peak performance — naturally.', tags: ['Vitality', 'Stamina', 'Circulation'], href: '/shop', word: 'DESIRE', price: '$69' },
-  { slug: 'glucose-balance', series: 'Metabolic Series', eyebrow: 'Balance Your Sugar', headPre: 'Steady Glucose,', headAccent: 'Steady Energy', sub: 'Pancreatic and metabolic botanicals that keep blood sugar in harmony, all day long.', tags: ['Blood Sugar', 'Metabolic', 'Pancreatic'], href: '/shop', word: 'BALANCE', price: '$69' },
-  { slug: 'cogniboost', series: 'Neuro Series', eyebrow: 'Sharpen Your Mind', headPre: 'Fuel Focus,', headAccent: 'Clarity & Memory', sub: 'Brain botanicals crafted for razor focus, mental clarity and lasting recall.', tags: ['Focus', 'Clarity', 'Memory'], href: '/shop', word: 'FOCUS', price: '$59' },
-  { slug: 'belly-fat-balance', series: 'Metabolic Series', eyebrow: 'Trim & Balance', headPre: 'Burn Fat,', headAccent: 'Feel Lighter', sub: 'Metabolic botanicals for gentle cleansing, smooth digestion and a flatter belly.', tags: ['Metabolic', 'Cleansing', 'Digestion'], href: '/shop', word: 'LIGHTER', price: '$39.99' },
-  { slug: 'longevity-30', series: 'Cellular Series', eyebrow: 'Age With Power', headPre: 'Live Longer,', headAccent: 'Live Stronger', sub: 'Youthful energy, immunity and metabolism for a body that thrives well past thirty.', tags: ['Youthful Energy', 'Immunity', 'Metabolism'], href: '/shop', word: 'LONGEVITY', price: '$59' },
-  { slug: 'womb-renewal', series: 'Wellness Series', eyebrow: 'Feminine Vitality', headPre: 'Renew Her', headAccent: 'Balance Within', sub: 'Restorative botanicals for feminine vitality and gentle, natural hormonal harmony.', tags: ['Feminine Vitality', 'Restorative', 'Balance'], href: '/shop', word: 'RENEW', price: '$69' },
+  { slug: 'libido-support', series: 'Wellness Series', eyebrow: 'Reignite the Fire', headPre: 'Reclaim Stamina', headAccent: '& Desire', sub: 'Vitality, stamina and circulation support engineered for peak performance — naturally.', tags: ['Vitality', 'Stamina', 'Circulation'], href: '/shop', word: 'DESIRE', price: '$80' },
+  { slug: 'glucose-balance', series: 'Metabolic Series', eyebrow: 'Balance Your Sugar', headPre: 'Steady Glucose,', headAccent: 'Steady Energy', sub: 'Pancreatic and metabolic botanicals that keep blood sugar in harmony, all day long.', tags: ['Blood Sugar', 'Metabolic', 'Pancreatic'], href: '/shop', word: 'BALANCE', price: '$99' },
+  { slug: 'cogniboost', series: 'Neuro Series', eyebrow: 'Sharpen Your Mind', headPre: 'Fuel Focus,', headAccent: 'Clarity & Memory', sub: 'Brain botanicals crafted for razor focus, mental clarity and lasting recall.', tags: ['Focus', 'Clarity', 'Memory'], href: '/shop', word: 'FOCUS', price: '$99' },
+  { slug: 'belly-fat-balance', series: 'Metabolic Series', eyebrow: 'Trim & Balance', headPre: 'Burn Fat,', headAccent: 'Feel Lighter', sub: 'Metabolic botanicals for gentle cleansing, smooth digestion and a flatter belly.', tags: ['Metabolic', 'Cleansing', 'Digestion'], href: '/shop', word: 'LIGHTER', price: '$60.99' },
+  { slug: 'longevity-30', series: 'Cellular Series', eyebrow: 'Age With Power', headPre: 'Live Longer,', headAccent: 'Live Stronger', sub: 'Youthful energy, immunity and metabolism for a body that thrives well past thirty.', tags: ['Youthful Energy', 'Immunity', 'Metabolism'], href: '/shop', word: 'LONGEVITY', price: '$110' },
+  { slug: 'womb-renewal', series: 'Wellness Series', eyebrow: 'Feminine Vitality', headPre: 'Renew Her', headAccent: 'Balance Within', sub: 'Restorative botanicals for feminine vitality and gentle, natural hormonal harmony.', tags: ['Feminine Vitality', 'Restorative', 'Balance'], href: '/shop', word: 'RENEW', price: '$120' },
 ];
 
 const SLIDE_MS = 6500;
@@ -300,7 +300,7 @@ export default function Hero() {
             </motion.div>
 
             {/* BOTTLE — giant, parallax, spring swing-in, reflection */}
-            <motion.div className="relative z-10 w-full max-w-[660px] sm:max-w-[800px] lg:max-w-[1320px] xl:max-w-[1520px] aspect-square" style={{ x: bottleX, y: bottleY }}>
+            <motion.div className="relative z-10 w-[116%] max-w-[760px] sm:w-full sm:max-w-[800px] lg:max-w-[1320px] xl:max-w-[1520px] aspect-square" style={{ x: bottleX, y: bottleY }}>
               <AnimatePresence custom={dir}>
                 <motion.div
                   key={slide.slug}

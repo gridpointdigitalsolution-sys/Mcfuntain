@@ -43,11 +43,11 @@ export default function BotanicalsShowcase() {
               whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 1, ease: EASE }}
-              className="relative h-[360px] w-[300px] max-w-[80%]"
+              className="relative h-[460px] w-[400px] max-w-[94%]"
             >
               <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                animate={{ y: [0, -12, 0], scale: [1, 1.05, 1] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
                 className="relative h-full w-full"
               >
                 <Image
