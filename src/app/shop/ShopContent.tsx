@@ -607,7 +607,7 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
               </div>
 
               {/* Count + view toggle + sort */}
-              <div className="flex items-center justify-between gap-3 lg:justify-end">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 lg:flex-nowrap lg:justify-end">
                 <span className="flex items-center gap-1.5 text-sm font-semibold text-muted">
                   <span style={{ color: activeColor }} className="font-heading text-base font-bold">
                     {filtered.length}
