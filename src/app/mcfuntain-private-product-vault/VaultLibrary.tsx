@@ -255,21 +255,30 @@ function CategoryMenu({
   const all = [ALL, ...categories];
   return (
     <nav className="lg:sticky lg:top-28">
-      <p className="text-xs font-sans font-bold tracking-[0.2em] uppercase mb-3" style={{ color: GOLD }}>Categories</p>
-      <ul className="space-y-1.5">
+      <p className="text-sm font-sans font-bold tracking-[0.2em] uppercase mb-4" style={{ color: GOLD }}>Categories</p>
+      <ul className="space-y-2.5">
         {all.map((c) => {
           const on = c === active;
           return (
             <li key={c}>
               <button
                 onClick={() => onSelect(c)}
-                className="w-full flex items-center justify-between rounded-lg px-3.5 py-2.5 text-sm font-sans transition-colors border"
+                className="group w-full flex items-center justify-between rounded-xl px-4 py-3.5 sm:py-3 font-sans font-semibold text-base sm:text-[15px] transition-all duration-200 border-2 active:scale-[0.98]"
                 style={on
                   ? { background: NAVY, color: CREAM, borderColor: GOLD }
-                  : { background: 'transparent', color: INK, borderColor: 'transparent' }}
+                  : { background: '#ffffff', color: INK, borderColor: '#ece2cb' }}
+                onMouseEnter={(e) => { if (!on) { e.currentTarget.style.borderColor = NAVY; e.currentTarget.style.color = NAVY; } }}
+                onMouseLeave={(e) => { if (!on) { e.currentTarget.style.borderColor = '#ece2cb'; e.currentTarget.style.color = INK; } }}
               >
                 <span className={on ? 'font-bold' : ''}>{c}</span>
-                <span className="text-xs" style={{ color: on ? GOLD : '#9aa3b2' }}>{counts[c] ?? 0}</span>
+                <span
+                  className="grid place-items-center min-w-7 h-7 px-2 rounded-full text-sm font-bold"
+                  style={on
+                    ? { background: GOLD, color: NAVY }
+                    : { background: '#f1e7cf', color: '#a9852f' }}
+                >
+                  {counts[c] ?? 0}
+                </span>
               </button>
             </li>
           );
