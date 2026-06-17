@@ -31,6 +31,7 @@ export const dynamic = 'force-dynamic';
 export type VaultItem = {
   num: number;
   productId: string;
+  imageFolder: string;
   name: string;
   slug: string;
   category: string;
@@ -54,6 +55,7 @@ function buildItems(): VaultItem[] {
     return {
       num: i + 1,
       productId: m.productId,
+      imageFolder: prod?.imageFolder ?? m.productId,
       name: m.name,
       slug: m.slug,
       category: m.category,

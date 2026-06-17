@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Lock } from 'lucide-react';
+import { Lock, Eye, EyeOff } from 'lucide-react';
 
 const NAVY = '#15233F';
 const GOLD = '#C9A24A';
@@ -11,6 +11,7 @@ export default function VaultGate({ notConfigured = false }: { notConfigured?: b
   const [passphrase, setPassphrase] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [show, setShow] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -69,14 +70,29 @@ export default function VaultGate({ notConfigured = false }: { notConfigured?: b
           <label className="block text-xs font-bold uppercase tracking-wide mb-1.5 font-sans">
             Passphrase
           </label>
-          <input
-            type="password"
-            autoFocus
-            value={passphrase}
-            onChange={(e) => setPassphrase(e.target.value)}
-            className="w-full rounded-lg border border-[#d9cdb0] px-4 py-3 text-sm text-[#2D2D2D] font-sans focus:outline-none focus:ring-2"
-            style={{ outlineColor: GOLD }}
-          />
+          <div className="relative">
+            <input
+              type={show ? 'text' : 'password'}
+              autoFocus
+              value={passphrase}
+              onChange={(e) => setPassphrase(e.target.value)}
+              className="w-full rounded-lg border border-[#d9cdb0] px-4 py-3 pr-12 text-sm text-[#2D2D2D] font-sans focus:outline-none focus:ring-2"
+              style={{ outlineColor: GOLD }}
+            />
+            <button
+              type="button"
+              onClick={() => setShow((s) => !s)}
+              aria-label={show ? 'Hide password' : 'Show password'}
+              title={show ? 'Hide password' : 'Show password'}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 grid place-items-center h-8 w-8 rounded-md hover:bg-[#f1e7cf]"
+              style={{ color: NAVY }}
+            >
+              {show ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
+          </div>
+          <p className="mt-2 text-xs font-sans" style={{ color: '#8a7a55' }}>
+            {show ? 'Showing what you typed — tap the eye to hide.' : 'Tap the eye to preview what you type.'}
+          </p>
           {error && <p className="mt-2 text-sm text-red-600 font-sans">{error}</p>}
           <button
             type="submit"

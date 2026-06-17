@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Search, Leaf, Eye, Download, Share2, X, Copy, Menu, Lock, ExternalLink,
@@ -319,10 +320,12 @@ function VaultCard({
         className="relative aspect-square grid place-items-center"
         style={{ background: 'linear-gradient(160deg,#fbf6ea 0%,#f1e7cf 100%)' }}
       >
-        <img
-          src={`/images/products/${item.productId}/bottle-1.jpg`}
+        <Image
+          src={`${item.imageFolder}/bottle-1.jpg`}
           alt={`${item.name} bottle`}
-          loading="lazy"
+          width={300}
+          height={300}
+          sizes="(max-width: 760px) 70vw, (max-width: 1200px) 40vw, 280px"
           className="h-[78%] w-auto object-contain drop-shadow-[0_18px_30px_rgba(21,35,63,0.22)]"
         />
         <span className="absolute top-3 left-3 grid place-items-center h-7 w-7 rounded-full" style={{ background: NAVY }}>
