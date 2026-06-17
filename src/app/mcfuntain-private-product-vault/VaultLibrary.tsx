@@ -9,7 +9,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  Search, Leaf, Eye, Download, Share2, X, Copy, Menu, Lock,
+  Search, Leaf, Eye, Download, Share2, X, Copy, Menu, Lock, ExternalLink,
 } from 'lucide-react';
 import type { VaultItem } from './page';
 
@@ -65,6 +65,17 @@ export default function VaultLibrary({
     try {
       await navigator.clipboard.writeText(url);
       showToast('Private link copied.');
+    } catch {
+      showToast('Copy failed — ' + url);
+    }
+  }
+
+  // Public product-page URL — for sharing the website link alongside a manual.
+  async function copySiteLink(it: VaultItem) {
+    const url = `${window.location.origin}/shop/${it.productId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast('Website link copied — ' + url);
     } catch {
       showToast('Copy failed — ' + url);
     }
@@ -151,6 +162,7 @@ export default function VaultLibrary({
                   onView={() => setViewer(it)}
                   onEmail={() => setEmailItem(it)}
                   onCopy={() => copyLink(it)}
+                  onSite={() => copySiteLink(it)}
                 />
               ))}
             </div>
@@ -282,13 +294,14 @@ function highlight(name: string, q: string) {
 }
 
 function VaultCard({
-  item, query, onView, onEmail, onCopy,
+  item, query, onView, onEmail, onCopy, onSite,
 }: {
   item: VaultItem;
   query: string;
   onView: () => void;
   onEmail: () => void;
   onCopy: () => void;
+  onSite: () => void;
 }) {
   return (
     <article className="bg-white rounded-2xl border border-[#e7ddc7] overflow-hidden flex flex-col shadow-[0_10px_30px_-20px_rgba(21,35,63,0.4)] hover:shadow-[0_18px_44px_-22px_rgba(21,35,63,0.5)] transition-shadow">
@@ -333,10 +346,24 @@ function VaultCard({
             <Download className="w-4 h-4" /> Save
           </a>
           <CardBtn label="Email" onClick={onEmail}><Share2 className="w-4 h-4" /></CardBtn>
-          <button onClick={onCopy} title="Copy private link" className="ml-auto grid place-items-center h-9 w-9 rounded-lg border border-[#e0d5ba]" style={{ color: NAVY }}>
+          <button onClick={onCopy} title="Copy private PDF link" className="ml-auto grid place-items-center h-9 w-9 rounded-lg border border-[#e0d5ba]" style={{ color: NAVY }}>
             <Copy className="w-4 h-4" />
           </button>
         </div>
+
+        {/* Website link-back — copy the product's public page URL to share */}
+        <button
+          onClick={onSite}
+          title="Copy this product's website link"
+          className="mt-3 flex w-full items-center gap-2 rounded-lg border border-[#e0d5ba] px-3 py-2 text-left transition-colors hover:text-white"
+          style={{ color: NAVY }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = GOLD)}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+        >
+          <ExternalLink className="w-4 h-4 shrink-0" />
+          <span className="font-sans text-[11px] font-semibold truncate">mcfuntain.com/shop/{item.productId}</span>
+          <Copy className="w-3.5 h-3.5 ml-auto shrink-0 opacity-70" />
+        </button>
       </div>
 
       {/* footer strip */}
