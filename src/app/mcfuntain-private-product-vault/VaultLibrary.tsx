@@ -85,12 +85,12 @@ export default function VaultLibrary({
     <div style={{ background: CREAM, color: NAVY }} className="min-h-screen font-[Georgia,serif]">
       {/* ---------- HERO ---------- */}
       <header className="border-b border-[#e7ddc7]">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 py-12 text-center">
-          <p className="text-[11px] font-bold tracking-[0.24em] uppercase font-sans mb-3" style={{ color: GOLD }}>
+        <div className="max-w-7xl mx-auto px-5 lg:px-8 pt-32 sm:pt-36 pb-12 text-center">
+          <p className="text-xs font-bold tracking-[0.24em] uppercase font-sans mb-3" style={{ color: GOLD }}>
             Private · Owner Library
           </p>
-          <h1 className="text-3xl sm:text-4xl">McFuntain Product Manuals</h1>
-          <p className="mt-2 italic text-[#5b6472]">Internal vault — for sharing with prospects only.</p>
+          <h1 className="text-4xl sm:text-5xl font-bold" style={{ color: NAVY }}>McFuntain Product Manuals</h1>
+          <p className="mt-3 italic text-base sm:text-lg text-[#5b6472]">Internal vault — for sharing with prospects only.</p>
           <p className="mt-2 text-xs font-sans text-[#9aa3b2]">{items.length} supplements · Updated June 2026</p>
           <span aria-hidden className="block mt-4 text-lg" style={{ color: GOLD }}>&#9670;</span>
         </div>
@@ -332,23 +332,21 @@ function VaultCard({
         )}
         <span className="block my-3 h-px" style={{ background: '#ece2cb' }} />
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <CardBtn label="View" onClick={onView}><Eye className="w-4 h-4" /></CardBtn>
           <a
             href={item.pdfPath}
-            download
-            title="Download"
-            className="flex items-center gap-1.5 rounded-lg border border-[#e0d5ba] px-3 py-2 text-xs font-sans font-bold uppercase tracking-wide hover:text-white transition-colors"
+            download={`${item.name} Manual.pdf`}
+            title="Download the PDF to your device"
+            className="flex items-center gap-1.5 rounded-lg border border-[#e0d5ba] px-3 py-2 text-xs font-sans font-bold uppercase tracking-wide transition-colors"
             style={{ color: NAVY }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = NAVY)}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+            onMouseEnter={(e) => { e.currentTarget.style.background = NAVY; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = NAVY; }}
           >
             <Download className="w-4 h-4" /> Save
           </a>
           <CardBtn label="Email" onClick={onEmail}><Share2 className="w-4 h-4" /></CardBtn>
-          <button onClick={onCopy} title="Copy private PDF link" className="ml-auto grid place-items-center h-9 w-9 rounded-lg border border-[#e0d5ba]" style={{ color: NAVY }}>
-            <Copy className="w-4 h-4" />
-          </button>
+          <CardBtn label="Link" onClick={onCopy}><Copy className="w-4 h-4" /></CardBtn>
         </div>
 
         {/* Website link-back — copy the product's public page URL to share */}
@@ -380,10 +378,10 @@ function CardBtn({ label, onClick, children }: { label: string; onClick: () => v
     <button
       onClick={onClick}
       title={label}
-      className="flex items-center gap-1.5 rounded-lg border border-[#e0d5ba] px-3 py-2 text-xs font-sans font-bold uppercase tracking-wide hover:text-white transition-colors"
+      className="flex items-center gap-1.5 rounded-lg border border-[#e0d5ba] px-3 py-2 text-xs font-sans font-bold uppercase tracking-wide transition-colors"
       style={{ color: NAVY }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = NAVY)}
-      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+      onMouseEnter={(e) => { e.currentTarget.style.background = NAVY; e.currentTarget.style.color = '#fff'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = NAVY; }}
     >
       {children}
       <span>{label}</span>
