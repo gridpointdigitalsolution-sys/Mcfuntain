@@ -6,7 +6,7 @@
  * Brand DNA locked: Navy #15233F · Gold #C9A24A · Cream #F8F1E5 · Ink #2D2D2D.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -438,7 +438,7 @@ function ViewerModal({
             <X className="w-5 h-5" />
           </button>
         </div>
-        <iframe src={`${item.pdfPath}#view=FitH`} title={`${item.name} manual`} className="flex-1 w-full bg-[#f4eedd]" />
+        <PdfPreview url={item.pdfPath} />
         <div className="flex flex-wrap justify-end gap-3 px-5 py-3 border-t border-[#ece2cb]" style={{ background: CREAM }}>
           <a href={item.pdfPath} download className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border-2 text-xs font-sans font-bold uppercase tracking-wide" style={{ borderColor: GOLD, color: NAVY }}>
             <Download className="w-4 h-4" /> Download PDF
@@ -452,6 +452,95 @@ function ViewerModal({
         </div>
       </motion.div>
     </motion.div>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Inline PDF preview that works on mobile AND desktop.
+ * Mobile browsers refuse to render a PDF inside an <iframe> (they show a
+ * grey placeholder), so we render each page to a <canvas> with pdf.js.
+ * ------------------------------------------------------------------ */
+function PdfPreview({ url }: { url: string }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+
+  useEffect(() => {
+    let cancelled = false;
+    setStatus('loading');
+    // Never leave the user on an infinite spinner: if the inline render hasn't
+    // produced a page in time (slow device / blocked worker), fall back to the
+    // "Open the PDF" button.
+    const failSafe = window.setTimeout(() => {
+      if (!cancelled && !wrapRef.current?.querySelector('canvas')) setStatus('error');
+    }, 12000);
+    (async () => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pdfjs: any = await import('pdfjs-dist');
+        // Same-origin worker (copied to /public) — avoids cross-origin worker hangs.
+        pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+        const doc = await pdfjs.getDocument({ url }).promise;
+        if (cancelled) return;
+        const wrap = wrapRef.current;
+        if (!wrap) return;
+        wrap.innerHTML = '';
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const containerW = Math.min(wrap.clientWidth || 800, 900);
+        for (let n = 1; n <= doc.numPages; n++) {
+          const page = await doc.getPage(n);
+          if (cancelled) return;
+          const base = page.getViewport({ scale: 1 });
+          const scale = containerW / base.width;
+          const viewport = page.getViewport({ scale: scale * dpr });
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.floor(viewport.width);
+          canvas.height = Math.floor(viewport.height);
+          canvas.style.width = '100%';
+          canvas.style.height = 'auto';
+          canvas.style.display = 'block';
+          canvas.style.marginBottom = '10px';
+          canvas.style.borderRadius = '4px';
+          canvas.style.boxShadow = '0 6px 20px -10px rgba(0,0,0,0.5)';
+          const ctx = canvas.getContext('2d');
+          // pdf.js v6: `canvas` is required (canvasContext is now optional).
+          await page.render({ canvas, canvasContext: ctx, viewport }).promise;
+          if (cancelled) return;
+          wrap.appendChild(canvas);
+        }
+        if (!cancelled) setStatus('ready');
+      } catch {
+        if (!cancelled) setStatus('error');
+      } finally {
+        window.clearTimeout(failSafe);
+      }
+    })();
+    return () => { cancelled = true; window.clearTimeout(failSafe); };
+  }, [url]);
+
+  return (
+    <div className="relative flex-1 overflow-auto" style={{ background: '#3a3f45' }}>
+      <div ref={wrapRef} className="mx-auto w-full max-w-3xl px-2 py-3 sm:px-4 sm:py-5" />
+      {status === 'loading' && (
+        <div className="absolute inset-0 grid place-items-center pointer-events-none">
+          <div className="flex flex-col items-center gap-3 text-white/85 font-sans text-sm">
+            <span className="h-8 w-8 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+            Loading preview…
+          </div>
+        </div>
+      )}
+      {status === 'error' && (
+        <div className="absolute inset-0 grid place-items-center px-6 text-center">
+          <div className="text-white/85 font-sans text-sm">
+            <p className="mb-3">Preview could not load here.</p>
+            <a href={url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold uppercase tracking-wide text-xs"
+              style={{ background: GOLD, color: NAVY }}>
+              <Eye className="w-4 h-4" /> Open the PDF
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
