@@ -21,6 +21,7 @@ import {
   LayoutGrid,
   Grid2x2,
   List,
+  Search,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -479,6 +480,7 @@ function QuickView({
 function ShopInner({ products, seriesList }: ShopContentProps) {
   const searchParams = useSearchParams();
   const [activeSeries, setActiveSeries] = useState<string>('all');
+  const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('popularity');
   const [sortOpen, setSortOpen] = useState(false);
   const [view, setView] = useState<ViewMode>('comfort');
@@ -504,10 +506,21 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
   );
 
   const filtered = useMemo(() => {
-    const result =
+    const q = search.trim().toLowerCase();
+    let result =
       activeSeries === 'all'
         ? [...products]
         : products.filter((p) => p.seriesSlug === activeSeries);
+
+    if (q) {
+      result = result.filter((p) =>
+        [p.name, p.tagline, p.series, p.description]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+          .includes(q),
+      );
+    }
 
     switch (sortBy) {
       case 'price-low':
@@ -527,7 +540,7 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
         break; // default catalogue order
     }
     return result;
-  }, [products, activeSeries, sortBy]);
+  }, [products, activeSeries, sortBy, search]);
 
   const activeColor =
     activeSeries === 'all'
@@ -550,6 +563,27 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
           {/*  Filter bar                                                   */}
           {/* ============================================================ */}
           <div className="sticky top-[64px] z-30 -mx-5 mt-8 bg-cream/95 px-5 py-4 backdrop-blur-md lg:top-[80px]">
+            {/* Instant search */}
+            <div className="relative mb-4">
+              <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gold-deep" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search formulas by name, benefit, or series…"
+                aria-label="Search products"
+                className="w-full rounded-full border-2 border-beige-dark/60 bg-white py-3 pl-11 pr-20 text-sm font-medium text-ink placeholder:text-muted focus:border-gold focus:outline-none"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold uppercase tracking-wide text-gold-deep hover:text-navy"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               {/* Series pills — horizontal scroll on mobile, with swipe affordance */}
               <div className="relative lg:flex-1">
@@ -689,23 +723,40 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
           {/* ============================================================ */}
           {/*  Product grid                                                 */}
           {/* ============================================================ */}
-          <motion.div
-            key={`${activeSeries}-${sortBy}-${view}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className={`mt-8 grid ${gridClassFor[view]} ${view === 'list' ? 'gap-4' : 'gap-6 lg:gap-7'}`}
-          >
-            {filtered.map((product, i) => (
-              <ShopCard
-                key={product.id}
-                product={product}
-                index={i}
-                view={view}
-                onQuickView={setQuickViewProduct}
-              />
-            ))}
-          </motion.div>
+          {filtered.length === 0 ? (
+            <div className="mt-12 rounded-2xl border-2 border-beige-dark/50 bg-white py-16 px-6 text-center">
+              <Search className="mx-auto mb-4 h-8 w-8 text-gold" />
+              <p className="mx-auto max-w-sm font-medium text-muted">
+                No formulas match{search ? ` “${search}”` : ' this filter'}. Try another search or
+                series.
+              </p>
+              <button
+                type="button"
+                onClick={() => { setSearch(''); setActiveSeries('all'); }}
+                className="mt-5 rounded-full bg-navy px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-[#0f1a30]"
+              >
+                Reset
+              </button>
+            </div>
+          ) : (
+            <motion.div
+              key={`${activeSeries}-${sortBy}-${view}-${search}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className={`mt-8 grid ${gridClassFor[view]} ${view === 'list' ? 'gap-4' : 'gap-6 lg:gap-7'}`}
+            >
+              {filtered.map((product, i) => (
+                <ShopCard
+                  key={product.id}
+                  product={product}
+                  index={i}
+                  view={view}
+                  onQuickView={setQuickViewProduct}
+                />
+              ))}
+            </motion.div>
+          )}
         </div>
       </section>
 

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { products } from '@/data/products';
 import { getProducts, getProductBySlug, getProductsBySeries } from '@/lib/content';
 import ProductDetail from './ProductDetail';
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 
 // Revalidate so Sanity Studio edits appear on the live site within ~1 min
 export const revalidate = 60;
@@ -74,7 +75,7 @@ export default async function ProductPage({
     description: product.description,
     sku: product.id,
     category: `${product.series} Series`,
-    image: `https://mcfuntain.com/images/products/${product.imageFolder}/bottle-1.jpg`,
+    image: `https://mcfuntain.com${product.imageFolder}/bottle-1.jpg`,
     url: `https://mcfuntain.com/shop/${product.id}`,
     brand: {
       "@type": "Brand",
@@ -101,6 +102,13 @@ export default async function ProductPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <JsonLdBreadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Shop', path: '/shop' },
+          { name: product.name, path: `/shop/${product.id}` },
+        ]}
       />
       <ProductDetail product={product} relatedProducts={related} />
     </>
