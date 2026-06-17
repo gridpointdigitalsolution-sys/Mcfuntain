@@ -320,6 +320,13 @@ export default function Footer() {
             </span>
           </div>
         </div>
+
+        {/* ---- Designer credit ---- */}
+        <div className="border-t border-white/10 py-5 text-center">
+          <p className="text-xs tracking-wide text-white/45">
+            Designed by <span className="font-semibold text-white/70">Churchill Bracknell</span>
+          </p>
+        </div>
       </div>
     </footer>
   );
