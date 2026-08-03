@@ -15,6 +15,7 @@ import {
   Shield,
   ShieldCheck,
   Sparkles,
+  Stethoscope,
   Target,
   Truck,
 } from 'lucide-react';
@@ -343,6 +344,94 @@ export default function AboutPage() {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/*  Co-Founder — David King Afolabi (secondary, under founder)   */}
+      {/* ============================================================ */}
+      <section className="bg-cream pb-20 lg:pb-28 -mt-6 relative overflow-hidden">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* "Alongside Him" gold divider */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="mx-auto mb-10 flex max-w-4xl items-center gap-4"
+          >
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-beige-dark to-gold" />
+            <span className="font-heading uppercase tracking-[0.24em] text-xs font-semibold text-gold">
+              Alongside Him
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-beige-dark to-gold" />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, ease: EASE }}
+            className="relative mx-auto max-w-4xl overflow-hidden rounded-[20px] border border-beige-dark bg-white shadow-[0_22px_55px_-30px_rgba(27,42,74,0.28)]"
+          >
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-gold-deep via-gold to-gold-light" />
+            <div className="grid md:grid-cols-[300px_1fr]">
+              {/* Photo */}
+              <div className="relative min-h-[360px] bg-gradient-to-br from-[#22335a] to-[#14213c]">
+                <div className="absolute inset-5 overflow-hidden rounded-[14px] shadow-[0_0_0_1px_rgba(212,160,23,0.55),0_0_0_8px_rgba(255,255,255,0.05)]">
+                  <Image
+                    src="/images/founder/david-king.jpeg"
+                    alt="David King Afolabi - Co-Founder of McFuntain Nutraceuticals"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 100vw, 300px"
+                  />
+                </div>
+                <div className="absolute bottom-2 right-2 z-10 flex items-center gap-2.5 rounded-[14px] border border-beige-dark bg-white px-3 py-2 shadow-[0_12px_26px_-12px_rgba(27,42,74,0.4)]">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-deep">
+                    <Stethoscope className="h-4 w-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold leading-tight text-ink">Nursing</p>
+                    <p className="text-[10.5px] text-muted">Clinical Training</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Text */}
+              <div className="p-8 sm:p-10">
+                <p className="font-heading uppercase tracking-[0.28em] text-xs font-semibold text-gold mb-2">
+                  Co-Founder
+                </p>
+                <h3 className="font-heading font-bold uppercase text-ink leading-[1.05] text-2xl sm:text-3xl">
+                  David King Afolabi
+                </h3>
+                <div className="mt-3.5 h-[3px] w-16 bg-gradient-to-r from-gold-deep via-gold to-gold-light" />
+                <div className="mt-5 space-y-3.5 text-muted leading-relaxed text-[15px]">
+                  <p>
+                    David King Afolabi is co-founder of McFuntain Nutraceuticals and an undergraduate
+                    nursing student at a reputable U.S. university, pairing hands-on clinical training
+                    with a strong grounding in medical and herbal science.
+                  </p>
+                  <p>
+                    He brings a new-generation, clinically-informed perspective to the brand &mdash; helping
+                    ensure every formula respects time-honored botanical wisdom while meeting modern
+                    health and safety standards.
+                  </p>
+                </div>
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  {['Undergraduate Nurse', 'Medical Science', 'Herbal Science'].map((chip) => (
+                    <span
+                      key={chip}
+                      className="font-heading uppercase tracking-[0.06em] text-[11.5px] font-semibold text-navy bg-gold/10 border border-gold/30 px-3.5 py-1.5 rounded-full"
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
