@@ -180,3 +180,92 @@ export function prospectManualEmail(args: {
     p(`Learn more at <a href="${args.productUrl}" style="color:${NAVY};text-decoration:underline;">mcfuntain.com</a>.`);
   return { subject: args.productName, html: layout(inner) };
 }
+
+/* ---------------------------------------------------------------- */
+/* T5 — contact form: internal notification + sender acknowledgement */
+/* ---------------------------------------------------------------- */
+
+/** Sent to the McFuntain inbox when someone submits the contact form. */
+export function contactNotificationEmail(args: {
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  sentAtIso: string;
+}): { subject: string; html: string } {
+  const row = (label: string, value: string) =>
+    `<tr>
+      <td style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa3b2;padding:8px 16px 8px 0;vertical-align:top;white-space:nowrap;">${escapeHtml(label)}</td>
+      <td style="font-family:Arial,sans-serif;font-size:14px;color:${INK};padding:8px 0;border-bottom:1px solid #f0e9d8;">${value}</td>
+    </tr>`;
+
+  const inner =
+    h1('New message from the website') +
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;">
+      ${row('From', escapeHtml(args.name))}
+      ${row('Email', `<a href="mailto:${escapeHtml(args.email)}" style="color:${NAVY};">${escapeHtml(args.email)}</a>`)}
+      ${args.phone ? row('Phone', escapeHtml(args.phone)) : ''}
+      ${row('Subject', escapeHtml(args.subject))}
+      ${row('Received', escapeHtml(args.sentAtIso))}
+    </table>` +
+    `<p style="font-family:Arial,sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:${GOLD};margin:0 0 6px;">Message</p>` +
+    `<div style="font-family:Arial,sans-serif;color:${INK};font-size:15px;line-height:1.65;white-space:pre-wrap;background:${CREAM};border-left:3px solid ${GOLD};padding:14px 16px;border-radius:4px;">${escapeHtml(args.message)}</div>` +
+    p('<span style="color:#9aa3b2;font-size:13px;">Reply directly to this email to respond to the sender.</span>');
+
+  return {
+    subject: `Contact form: ${args.subject} — ${args.name}`,
+    html: layout(inner),
+  };
+}
+
+/** Auto-acknowledgement sent back to the person who wrote in. */
+export function contactAckEmail(args: {
+  firstName: string;
+  subject: string;
+  message: string;
+  siteUrl: string;
+}): { subject: string; html: string } {
+  const inner =
+    h1(`Thank you, ${escapeHtml(args.firstName || 'friend')}.`) +
+    p('We have received your message and a member of our team will respond within one business day.') +
+    `<p style="font-family:Arial,sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:${GOLD};margin:24px 0 6px;">What you sent us</p>` +
+    `<div style="font-family:Arial,sans-serif;color:${INK};font-size:14px;line-height:1.65;white-space:pre-wrap;background:${CREAM};border-left:3px solid ${GOLD};padding:14px 16px;border-radius:4px;">${escapeHtml(args.subject)}\n\n${escapeHtml(args.message)}</div>` +
+    p('<br>' + button(`${args.siteUrl}/shop`, 'Browse the Collection')) +
+    p('<span style="color:#9aa3b2;font-size:13px;">If your question is urgent, write to support@mcfuntain.com.</span>');
+
+  return { subject: 'We received your message — McFuntain Nutraceuticals', html: layout(inner) };
+}
+
+/* ---------------------------------------------------------------- */
+/* T6 — newsletter: internal notification + subscriber welcome       */
+/* ---------------------------------------------------------------- */
+
+/** Sent to the McFuntain inbox so a signup is never lost. */
+export function newsletterSignupEmail(args: {
+  email: string;
+  source: string;
+  sentAtIso: string;
+}): { subject: string; html: string } {
+  const inner =
+    h1('New journal subscriber') +
+    p(`<strong>${escapeHtml(args.email)}</strong>`) +
+    p(`<span style="color:#9aa3b2;font-size:13px;">Signed up from ${escapeHtml(args.source)} on ${escapeHtml(args.sentAtIso)}.</span>`);
+  return { subject: `New subscriber: ${args.email}`, html: layout(inner) };
+}
+
+/** Welcome note sent to the new subscriber. */
+export function newsletterWelcomeEmail(args: {
+  siteUrl: string;
+  unsubscribeUrl: string;
+}): { subject: string; html: string } {
+  const inner =
+    h1('Welcome to the McFuntain Journal.') +
+    p('You will receive occasional letters on African herbal wisdom, the botanicals behind our formulations, and how to use them well. No noise, and never more than a few times a month.') +
+    p('<br>' + button(`${args.siteUrl}/blog`, 'Read the Journal')) +
+    p('<span style="color:#9aa3b2;font-size:13px;">You can unsubscribe at any time using the link below.</span>');
+  return {
+    subject: 'Welcome to the McFuntain Journal',
+    html: layout(inner, { unsubscribeUrl: args.unsubscribeUrl }),
+  };
+}

@@ -85,13 +85,33 @@ const socialLinks = [
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (sending || !email.trim()) return;
+    setSending(true);
+    setErrorMsg(null);
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), source: "footer" }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || !data.ok) {
+        // Never show "thank you for subscribing" for a signup that failed.
+        setErrorMsg(data.error || "We could not complete your subscription. Please try again later.");
+        return;
+      }
       setSubscribed(true);
       setEmail("");
       setTimeout(() => setSubscribed(false), 4000);
+    } catch {
+      setErrorMsg("We could not reach the server. Please check your connection and try again.");
+    } finally {
+      setSending(false);
     }
   };
 
@@ -232,12 +252,19 @@ export default function Footer() {
               </div>
               <button
                 type="submit"
-                className="flex h-12 items-center gap-1.5 rounded-lg bg-gradient-to-r from-gold to-gold-deep px-5 text-sm font-semibold text-white shadow-md shadow-gold/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/30"
+                disabled={sending}
+                className="flex h-12 items-center gap-1.5 rounded-lg bg-gradient-to-r from-gold to-gold-deep px-5 text-sm font-semibold text-white shadow-md shadow-gold/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/30 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {sending ? "Sending" : "Subscribe"}
                 <ArrowRight size={14} />
               </button>
             </form>
+
+            {errorMsg && (
+              <p role="alert" className="mt-3 text-sm font-medium text-gold-light">
+                {errorMsg}
+              </p>
+            )}
 
             {subscribed && (
               <p className="mt-3 text-sm font-medium text-gold-light">

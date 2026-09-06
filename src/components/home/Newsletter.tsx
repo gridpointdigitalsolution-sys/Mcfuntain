@@ -12,10 +12,32 @@ export default function Newsletter() {
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (sending || !email.trim()) return;
+    setSending(true);
+    setErrorMsg(null);
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), source: 'homepage' }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || !data.ok) {
+        // Only celebrate a subscription that actually happened.
+        setErrorMsg(data.error || 'We could not complete your subscription. Please try again later.');
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setErrorMsg('We could not reach the server. Please check your connection and try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -89,14 +111,21 @@ export default function Newsletter() {
                   />
                   <button
                     type="submit"
-                    className="absolute right-1.5 top-1.5 bottom-1.5 bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white font-bold uppercase tracking-wide text-sm px-6 rounded-full flex items-center gap-2 hover:shadow-[0_4px_20px_-3px_rgba(212,160,23,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer"
+                    disabled={sending}
+                    className="absolute right-1.5 top-1.5 bottom-1.5 disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white font-bold uppercase tracking-wide text-sm px-6 rounded-full flex items-center gap-2 hover:shadow-[0_4px_20px_-3px_rgba(212,160,23,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer"
                   >
-                    Subscribe
+                    {sending ? 'Sending' : 'Subscribe'}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>
               )}
             </div>
+
+            {errorMsg && (
+              <p role="alert" className="mt-4 text-sm text-gold-light">
+                {errorMsg}
+              </p>
+            )}
 
             <p className="mt-5 flex items-center justify-center gap-2 text-sm text-white/30">
               <ShieldCheck className="w-4 h-4 text-gold/50" />

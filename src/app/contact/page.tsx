@@ -184,8 +184,11 @@ export default function ContactPage() {
     phone: '',
     subject: '',
     message: '',
+    company: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending'>('idle');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const handleChange = (
@@ -194,9 +197,31 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (status === 'sending') return;
+    setStatus('sending');
+    setErrorMsg(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+
+      if (!res.ok || !data.ok) {
+        // Never claim success for a message that was not delivered.
+        setErrorMsg(data.error || 'Your message could not be sent. Please email info@mcfuntain.com directly.');
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setErrorMsg('We could not reach the server. Please check your connection, or email info@mcfuntain.com directly.');
+    } finally {
+      setStatus('idle');
+    }
   };
 
   return (
@@ -261,7 +286,7 @@ export default function ContactPage() {
                       <button
                         onClick={() => {
                           setSubmitted(false);
-                          setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+                          setFormData({ name: '', email: '', phone: '', subject: '', message: '', company: '' });
                         }}
                         className="mt-6 text-gold font-medium hover:text-gold-deep transition-colors cursor-pointer"
                       >
@@ -277,6 +302,27 @@ export default function ContactPage() {
                       onSubmit={handleSubmit}
                       className="space-y-6"
                     >
+                      {/* Honeypot — hidden from people, tempting to bots. */}
+                      <input
+                        type="text"
+                        name="company"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        className="hidden"
+                        value={formData.company}
+                        onChange={handleChange}
+                      />
+
+                      {errorMsg && (
+                        <div
+                          role="alert"
+                          className="rounded-xl border border-gold/40 bg-beige/70 px-5 py-4 text-sm text-navy"
+                        >
+                          {errorMsg}
+                        </div>
+                      )}
+
                       <div className="grid sm:grid-cols-2 gap-6">
                         <div>
                           <label
@@ -387,11 +433,12 @@ export default function ContactPage() {
 
                       <motion.button
                         type="submit"
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                        className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-10 py-4 rounded-full font-heading font-bold uppercase tracking-wider text-base bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white shadow-lg shadow-gold/20 hover:shadow-[0_8px_30px_-5px_rgba(212,160,23,0.45)] transition-shadow duration-500 cursor-pointer"
+                        disabled={status === 'sending'}
+                        whileHover={status === 'sending' ? undefined : { scale: 1.02, y: -2 }}
+                        whileTap={status === 'sending' ? undefined : { scale: 0.97 }}
+                        className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-10 py-4 rounded-full font-heading font-bold uppercase tracking-wider text-base bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white shadow-lg shadow-gold/20 hover:shadow-[0_8px_30px_-5px_rgba(212,160,23,0.45)] transition-shadow duration-500 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        Send Message
+                        {status === 'sending' ? 'Sending...' : 'Send Message'}
                         <Send className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
                       </motion.button>
                     </motion.form>
