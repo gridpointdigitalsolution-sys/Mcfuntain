@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Contact Us | McFuntain Nutraceuticals',
@@ -17,5 +18,15 @@ export default function ContactLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <JsonLdBreadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Contact', path: '/contact' },
+        ]}
+      />
+      {children}
+    </>
+  );
 }

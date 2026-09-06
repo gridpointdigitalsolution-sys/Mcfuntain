@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 
 export const metadata: Metadata = {
   title: 'FAQ | McFuntain Nutraceuticals',
@@ -17,5 +18,15 @@ export default function FAQLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <JsonLdBreadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'FAQ', path: '/faq' },
+        ]}
+      />
+      {children}
+    </>
+  );
 }

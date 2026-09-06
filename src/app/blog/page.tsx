@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import { getBlogPosts } from '@/lib/content';
 import BlogIndex from './BlogIndex';
 
@@ -19,5 +20,15 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const posts = await getBlogPosts();
-  return <BlogIndex posts={posts} />;
+  return (
+    <>
+      <JsonLdBreadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Journal', path: '/blog' },
+        ]}
+      />
+      <BlogIndex posts={posts} />
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Calendar, Check, Clock } from 'lucide-react';
@@ -111,6 +112,13 @@ export default async function BlogPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <JsonLdBreadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Journal', path: '/blog' },
+          { name: post.title, path: `/blog/${post.slug}` },
+        ]}
       />
 
       <PageHero
