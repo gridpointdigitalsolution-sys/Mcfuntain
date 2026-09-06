@@ -365,7 +365,7 @@ function CartItemRow({
         <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-xl bg-gradient-to-br from-beige/70 to-cream overflow-hidden flex-shrink-0 border border-beige-dark/30">
           <Image
             src={`${item.imageFolder}/bottle-1.jpg`}
-            alt={item.name}
+            alt={`${item.name} supplement bottle`}
             fill
             className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
             sizes="112px"

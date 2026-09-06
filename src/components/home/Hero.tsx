@@ -391,7 +391,7 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
                 >
                   {/* heartbeat pan (founder-loved) */}
                   <motion.div className="relative w-full h-full" animate={{ scale: [1, 1.08, 1.02, 1.1, 1], y: [0, -4, 0, -3, 0] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', times: [0, 0.18, 0.42, 0.6, 1] }}>
-                    <Image src={`/images/hero/${slide.slug}.webp`} alt={`${slide.headPre} ${slide.headAccent}`} fill priority sizes="(max-width: 1024px) 92vw, 1100px" className="object-contain drop-shadow-[0_36px_60px_rgba(0,0,0,0.6)]" />
+                    <Image src={`/images/hero/${slide.slug}.webp`} alt={`${slide.headPre} ${slide.headAccent} — McFuntain supplement bottle`} fill priority sizes="(max-width: 1024px) 92vw, 1100px" className="object-contain drop-shadow-[0_36px_60px_rgba(0,0,0,0.6)]" />
                     {/* reflection */}
                     <div className="absolute left-0 right-0 top-full h-[42%] -mt-[6%] pointer-events-none [transform:scaleY(-1)] opacity-[0.14]"
                       style={{ maskImage: 'linear-gradient(to top, transparent 30%, black 100%)', WebkitMaskImage: 'linear-gradient(to top, transparent 30%, black 100%)' }}>

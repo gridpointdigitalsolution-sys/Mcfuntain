@@ -159,7 +159,7 @@ function ShopCard({
           <div className="relative aspect-square w-28 shrink-0 overflow-hidden bg-beige sm:w-44">
             <Image
               src={`${product.imageFolder}/bottle-1.jpg`}
-              alt={product.name}
+              alt={`${product.name} supplement bottle — McFuntain ${product.series} Series`}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width:640px) 112px, 176px"
@@ -218,7 +218,7 @@ function ShopCard({
 
             <Image
               src={`${product.imageFolder}/bottle-1.jpg`}
-              alt={product.name}
+              alt={`${product.name} supplement bottle — McFuntain ${product.series} Series`}
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -333,7 +333,7 @@ function QuickViewBody({
               </span>
               <Image
                 src={`${product.imageFolder}/bottle-1.jpg`}
-                alt={product.name}
+                alt={`${product.name} supplement bottle — McFuntain ${product.series} Series`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 340px"

@@ -52,7 +52,7 @@ export default function BotanicalsShowcase() {
               >
                 <Image
                   src="/images/hero/libido-support.webp"
-                  alt="McFuntain Divine Libido Support"
+                  alt="McFuntain Divine Libido Support supplement bottle"
                   fill
                   sizes="840px"
                   className="object-cover object-[36%_50%] drop-shadow-[0_30px_55px_rgba(27,42,74,0.4)]"
@@ -108,7 +108,7 @@ export default function BotanicalsShowcase() {
               >
                 <Image
                   src="/images/hero/libido-support.webp"
-                  alt="McFuntain Divine Libido Support"
+                  alt="McFuntain Divine Libido Support supplement bottle"
                   fill
                   sizes="(min-width:1024px) 560px, 420px"
                   className="object-contain drop-shadow-[0_30px_60px_rgba(27,42,74,0.4)]"

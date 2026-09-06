@@ -46,7 +46,7 @@ export default function Newsletter() {
               <div className="relative w-16 h-16">
                 <Image
                   src="/images/brand/logo-dark.png"
-                  alt="McFuntain"
+                  alt="McFuntain Nutraceuticals"
                   fill
                   sizes="64px"
                   className="object-contain"

@@ -60,7 +60,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           <div className="relative h-[250px] md:h-[290px] overflow-hidden bg-beige/40">
             <Image
               src={`${product.imageFolder}/bottle-1.jpg`}
-              alt={product.name}
+              alt={`${product.name} supplement bottle — McFuntain ${product.series} Series`}
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

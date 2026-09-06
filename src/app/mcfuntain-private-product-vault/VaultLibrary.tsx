@@ -322,7 +322,7 @@ function VaultCard({
       >
         <Image
           src={`${item.imageFolder}/bottle-1.jpg`}
-          alt={`${item.name} bottle`}
+          alt={`${item.name} supplement bottle`}
           width={300}
           height={300}
           sizes="(max-width: 760px) 70vw, (max-width: 1200px) 40vw, 280px"

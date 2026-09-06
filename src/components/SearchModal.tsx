@@ -333,7 +333,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     <div className="relative w-14 h-14 flex-shrink-0 rounded-lg bg-gradient-to-br from-beige/80 to-white overflow-hidden border border-beige-dark/20 flex items-center justify-center">
                       <Image
                         src={`${product.imageFolder}/bottle-1.jpg`}
-                        alt={product.name}
+                        alt={`${product.name} supplement bottle — McFuntain ${product.series} Series`}
                         width={48}
                         height={48}
                         className="object-contain"

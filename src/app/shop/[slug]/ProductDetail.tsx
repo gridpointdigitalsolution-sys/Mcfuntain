@@ -314,7 +314,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                     >
                       <Image
                         src={thumbnails[selectedImage]}
-                        alt={`${product.name} - View ${selectedImage + 1}`}
+                        alt={`${product.name} supplement bottle — McFuntain ${product.series} Series, view ${selectedImage + 1}`}
                         fill
                         className="object-cover"
                         sizes="(max-width: 1024px) 90vw, 45vw"
@@ -349,7 +349,7 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                     >
                       <Image
                         src={src}
-                        alt={`Thumbnail ${i + 1}`}
+                        alt={`${product.name} bottle — thumbnail view ${i + 1}`}
                         fill
                         className="object-cover"
                         sizes="80px"

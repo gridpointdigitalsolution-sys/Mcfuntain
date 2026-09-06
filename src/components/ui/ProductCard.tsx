@@ -77,7 +77,7 @@ export default function ProductCard({
           <div className="relative h-64 sm:h-72 overflow-hidden">
             <Image
               src={`${imageFolder}/bottle-1.jpg`}
-              alt={name}
+              alt={`${name} supplement bottle — McFuntain ${series} Series`}
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
