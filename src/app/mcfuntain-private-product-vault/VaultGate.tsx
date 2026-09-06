@@ -67,11 +67,15 @@ export default function VaultGate({ notConfigured = false }: { notConfigured?: b
         )}
 
         <form onSubmit={submit} className="text-left">
-          <label className="block text-xs font-bold uppercase tracking-wide mb-1.5 font-sans">
+          <label
+            htmlFor="vault-passphrase"
+            className="block text-xs font-bold uppercase tracking-wide mb-1.5 font-sans"
+          >
             Passphrase
           </label>
           <div className="relative">
             <input
+              id="vault-passphrase"
               type={show ? 'text' : 'password'}
               autoFocus
               value={passphrase}

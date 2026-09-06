@@ -4,6 +4,7 @@ import { products } from '@/data/products';
 import { signedManualUrl } from '@/lib/manual-links';
 import { sendEmail, isValidEmail } from '@/lib/email';
 import { leadMagnetEmail } from '@/lib/email-templates';
+import { rateLimited, clientIp } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -25,6 +26,15 @@ function pitchFor(productId: string): { name: string; pitch: string } {
 }
 
 export async function POST(req: NextRequest) {
+  // Without this the endpoint would email any address on demand the moment
+  // RESEND_API_KEY is set - an open relay for spam and quota burn.
+  if (rateLimited(`manual-request:${clientIp(req)}`, { limit: 5, windowMs: 60_000, now: Date.now() })) {
+    return NextResponse.json(
+      { ok: false, error: 'Too many requests. Please wait a minute and try again.' },
+      { status: 429 },
+    );
+  }
+
   let body: { email?: unknown; productId?: unknown };
   try {
     body = await req.json();

@@ -81,16 +81,16 @@ export default async function CheckoutSuccessPage(props: {
                 <p className="mt-2 text-muted">
                   {paid ? (
                     <>
-                      A confirmation
+                      Your payment is complete
                       {order?.email ? (
                         <>
                           {' '}
-                          has been sent to <span className="font-semibold text-navy">{order.email}</span>
+                          and your order is recorded against{' '}
+                          <span className="font-semibold text-navy">{order.email}</span>
                         </>
-                      ) : (
-                        ' has been sent to your email'
-                      )}
-                      , along with the full product manual for everything you ordered.
+                      ) : null}
+                      . Your order confirmation and product manuals follow by email shortly - if
+                      nothing arrives within the hour, contact us and we will send them straight over.
                     </>
                   ) : (
                     'If you were charged, your confirmation will arrive by email shortly. Contact us if anything looks wrong.'
@@ -128,7 +128,8 @@ export default async function CheckoutSuccessPage(props: {
               <div className="flex items-start gap-3 rounded-xl bg-beige/60 p-4">
                 <Mail className="mt-0.5 h-5 w-5 flex-shrink-0 text-gold-deep" aria-hidden="true" />
                 <p className="text-sm text-ink">
-                  Your product manuals arrive by email. They cover ingredients, dosage, what to expect, and safety.
+                  Your product manuals are emailed to you, and every manual is also readable on its
+                  product page. They cover ingredients, dosage, what to expect, and safety.
                 </p>
               </div>
               <div className="flex items-start gap-3 rounded-xl bg-beige/60 p-4">

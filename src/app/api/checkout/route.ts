@@ -3,6 +3,7 @@ import { getStripe, stripeConfigured } from '@/lib/stripe';
 import { toCents, type RequestedLine } from '@/lib/cart-pricing';
 import { priceCart } from '@/lib/price-cart';
 import { rateLimited, clientIp } from '@/lib/rate-limit';
+import { SITE_URL } from '@/lib/site';
 
 /**
  * Creates a Stripe Checkout Session for the current cart.
@@ -35,8 +36,19 @@ function itemsMetadata(lines: { productId: string; quantity: number; unitPrice: 
   return chunks;
 }
 
-function siteUrl(req: NextRequest): string {
-  return process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin || 'https://www.mcfuntain.com';
+/**
+ * Base URL for the Stripe redirect targets.
+ *
+ * Deliberately NOT derived from the request: `new URL(req.url).origin` follows
+ * the Host header, so a forged host would send a real checkout session id to an
+ * attacker's domain. Only a localhost origin is honoured, and only in dev.
+ */
+function redirectBase(req: NextRequest): string {
+  if (process.env.NODE_ENV !== 'production') {
+    const origin = new URL(req.url).origin;
+    if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return origin;
+  }
+  return SITE_URL;
 }
 
 export async function POST(req: NextRequest) {
@@ -84,7 +96,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const base = siteUrl(req);
+  const base = redirectBase(req);
 
   try {
     const session = await stripe.checkout.sessions.create({

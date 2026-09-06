@@ -106,6 +106,7 @@ export default function Newsletter() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email address"
+                    aria-label="Email address"
                     required
                     className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-4 pr-36 text-white placeholder:text-white/30 focus:outline-none focus:border-gold/40 focus:bg-white/[0.07] focus:shadow-[0_0_0_3px_rgba(212,160,23,0.1)] transition-all duration-300"
                   />

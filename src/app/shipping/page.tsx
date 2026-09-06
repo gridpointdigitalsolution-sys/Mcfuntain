@@ -60,7 +60,7 @@ export default function Shipping() {
         <div className="mx-auto max-w-4xl px-4 text-center">
           <p className="flex items-center justify-center gap-2 font-heading text-base md:text-lg font-bold uppercase tracking-wide text-white">
             <CheckCircle className="h-5 w-5" aria-hidden />
-            Free Standard Shipping on All Orders Over $99
+            Free Standard Shipping on Orders of $99 or More
           </p>
         </div>
       </section>

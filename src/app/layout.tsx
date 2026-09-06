@@ -10,6 +10,7 @@ import Preloader from "@/components/Preloader";
 import CursorGlow from "@/components/CursorGlow";
 import Analytics from "@/components/Analytics";
 import { CartProvider } from "@/context/CartContext";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -32,7 +33,7 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mcfuntain.com"),
+  metadataBase: new URL(SITE_URL),
   title: "McFuntain Nutraceuticals | Nature Refined for Better Living",
   description:
     "Premium herbal supplements crafted with science-backed formulations. McFuntain Nutraceuticals delivers nature-refined solutions for cellular health, cognitive clarity, metabolic balance, and whole-body wellness.",
@@ -86,8 +87,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "McFuntain Nutraceuticals",
-              url: "https://mcfuntain.com",
-              logo: "https://mcfuntain.com/icon.png",
+              url: SITE_URL,
+              logo: `${SITE_URL}/icon.png`,
               description:
                 "Premium herbal supplements crafted with science-backed formulations",
               email: "info@mcfuntain.com",

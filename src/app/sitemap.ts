@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { getProducts, getBlogPosts } from '@/lib/content';
 
-const BASE_URL = 'https://mcfuntain.com';
+import { SITE_URL } from '@/lib/site';
+const BASE_URL = SITE_URL;
 
 export const revalidate = 60;
 

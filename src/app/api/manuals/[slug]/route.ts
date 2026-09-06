@@ -53,7 +53,7 @@ function gonePage(message: string): Response {
   <p class="eyebrow">McFuntain Nutraceuticals</p>
   <h1>This download link has expired</h1>
   <p>${message}</p>
-  <a href="https://www.mcfuntain.com/account/orders">Open your account orders</a>
+  <a href="https://www.mcfuntain.com/contact">Request a new link</a>
 </div></body></html>`;
   return new Response(html, {
     status: 410,
@@ -86,13 +86,13 @@ export async function GET(
 
   if (!verdict.ok) {
     if (verdict.reason === 'expired') {
-      return gonePage('For your security, manual links expire after 30 days. Visit your order page to issue a fresh one.');
+      return gonePage('For your security, manual links expire after 30 days. Contact us and we will send a fresh one straight over.');
     }
     if (verdict.reason === 'unknown') {
       return new Response('Not found', { status: 404, headers: { 'Cache-Control': 'no-store' } });
     }
     // malformed / bad-signature
-    return gonePage('This link is invalid or has been altered. Visit your order page to issue a fresh one.');
+    return gonePage('This link is invalid or has been altered. Contact us and we will send a fresh one straight over.');
   }
 
   const manual = manualBySlug(verdict.slug)!;

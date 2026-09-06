@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Bone,
 } from 'lucide-react';
+import { products, series as catalogueSeries } from '@/data/products';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GoldButton from '@/components/ui/GoldButton';
@@ -124,7 +125,6 @@ const wellnessSeries = [
     icon: FlaskConical,
     focus: 'Energy production, cellular renewal, and longevity support',
     description: 'Foundational formulas that target mitochondrial health, cellular regeneration, and age-related vitality to support your body at its most fundamental level.',
-    products: 4,
   },
   {
     name: 'Neuro Series',
@@ -132,7 +132,6 @@ const wellnessSeries = [
     icon: Brain,
     focus: 'Cognitive clarity, memory, and nerve health',
     description: 'Advanced neurological support combining nootropic botanicals with neuroprotective compounds for sharper focus, better recall, and healthy nerve function.',
-    products: 3,
   },
   {
     name: 'Metabolic Series',
@@ -140,7 +139,6 @@ const wellnessSeries = [
     icon: Flame,
     focus: 'Blood sugar balance, thyroid health, and weight management',
     description: 'Targeted metabolic formulas that support glucose optimization, thyroid harmony, and healthy body composition through proven botanical pathways.',
-    products: 4,
   },
   {
     name: 'Mobility Series',
@@ -148,7 +146,6 @@ const wellnessSeries = [
     icon: Bone,
     focus: 'Joint comfort, bone strength, and spinal wellness',
     description: 'Structural support formulas featuring botanicals traditionally used for musculoskeletal health, enhanced with modern joint and bone research.',
-    products: 2,
   },
   {
     name: 'Vision Series',
@@ -156,7 +153,6 @@ const wellnessSeries = [
     icon: Eye,
     focus: 'Eye health and visual acuity',
     description: 'Botanical compounds rich in lutein, zeaxanthin, and anthocyanins that support retinal health, reduce oxidative stress, and promote clear vision.',
-    products: 1,
   },
   {
     name: 'Detox Series',
@@ -164,7 +160,6 @@ const wellnessSeries = [
     icon: Leaf,
     focus: 'Gentle cleansing and organ support',
     description: 'Carefully balanced formulas that support the body\'s natural detoxification pathways, promoting kidney health, respiratory wellness, and whole-body cleansing without harsh effects.',
-    products: 3,
   },
   {
     name: 'Wellness Series',
@@ -172,14 +167,18 @@ const wellnessSeries = [
     icon: HeartPulse,
     focus: 'Vitality, circulation, and whole-body health',
     description: 'Comprehensive wellness formulas addressing vitality, feminine health, masculine health, circulatory support, and daily freshness for holistic well-being.',
-    products: 8,
   },
 ];
 
+/** Live count for a series, so the breakdown always matches the catalogue. */
+function productCount(slug: string): number {
+  return catalogueSeries.find((s) => s.slug === slug)?.productIds.length ?? 0;
+}
+
 const stats = [
   { value: 50, suffix: '+', label: 'Premium Botanicals' },
-  { value: 26, suffix: '', label: 'Botanical Supplements' },
-  { value: 7, suffix: '', label: 'Wellness Series' },
+  { value: products.length, suffix: '', label: 'Botanical Supplements' },
+  { value: catalogueSeries.length, suffix: '', label: 'Wellness Series' },
   { value: 12, suffix: '', label: 'Key Botanicals Studied' },
 ];
 
@@ -502,7 +501,7 @@ export default function SciencePage() {
                                   {series.name}
                                 </h3>
                                 <span className="inline-block px-3 py-1 text-xs font-bold text-white rounded-full bg-navy">
-                                  {series.products} Product{series.products !== 1 ? 's' : ''}
+                                  {productCount(series.slug)} Product{productCount(series.slug) !== 1 ? 's' : ''}
                                 </span>
                               </div>
                               <p className="text-sm font-semibold text-gold uppercase tracking-wider mb-3">{series.focus}</p>

@@ -17,49 +17,39 @@ import {
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import SearchModal from "@/components/SearchModal";
+import { products, series } from "@/data/products";
+import type { LucideIcon } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/* ---- Data (gold-only — no per-series rainbow colors) ---- */
-const productSeries = [
-  { name: "Cellular", href: "/shop?series=cellular", icon: FlaskConical, products: [
-    { name: "Mitochondria Energy", href: "/shop/mito-energy" },
-    { name: "Stem Cells", href: "/shop/cell-renewal" },
-    { name: "Longevity 30+", href: "/shop/longevity-30" },
-    { name: "Longevity 50+", href: "/shop/longevity-50" },
-  ] },
-  { name: "Neuro", href: "/shop?series=neuro", icon: Brain, products: [
-    { name: "CogniBoost Restore", href: "/shop/cogniboost-restore" },
-    { name: "Nerve Renewal", href: "/shop/nerve-renewal" },
-    { name: "Neuro Restore", href: "/shop/neuro-restore" },
-  ] },
-  { name: "Metabolic", href: "/shop?series=metabolic", icon: Flame, products: [
-    { name: "Glucose Balance", href: "/shop/glucose-balance" },
-    { name: "Thyroid Balance", href: "/shop/thyroid-balance" },
-    { name: "Belly Fat Balance", href: "/shop/belly-fat-balance" },
-    { name: "GLUT4 Activation", href: "/shop/glut4-metabolic-activation" },
-  ] },
-  { name: "Mobility", href: "/shop?series=mobility", icon: Bone, products: [
-    { name: "Joint & Bone", href: "/shop/joint-bone" },
-    { name: "Lumbar Restore", href: "/shop/lumbar-restore" },
-  ] },
-  { name: "Vision", href: "/shop?series=vision", icon: Eye, products: [
-    { name: "Vision Support", href: "/shop/vision-support" },
-  ] },
-  { name: "Detox", href: "/shop?series=detox", icon: Leaf, products: [
-    { name: "Kidney Restore", href: "/shop/kidney-restore" },
-    { name: "Respiratory Shield", href: "/shop/respiratory-shield" },
-    { name: "GERD Respiratory", href: "/shop/gerd-respiratory" },
-  ] },
-  { name: "Wellness", href: "/shop?series=wellness", icon: HeartPulse, products: [
-    { name: "Vitality", href: "/shop/vitality" },
-    { name: "Womb Renewal", href: "/shop/womb-renewal" },
-    { name: "Libido Support", href: "/shop/libido-support" },
-    { name: "Blood Booster Pro", href: "/shop/blood-booster-pro" },
-    { name: "Female Fertility", href: "/shop/female-fertility" },
-    { name: "Male Fertility", href: "/shop/male-fertility" },
-  ] },
-];
+/* ---- Data (gold-only — no per-series rainbow colors) ----
+   Derived from the catalogue rather than hand-listed, so the dropdown can never
+   drift out of sync with the products that actually exist. A hand-maintained
+   copy previously listed 23 of 26, hiding three sellable products from the nav. */
+const SERIES_ICONS: Record<string, LucideIcon> = {
+  cellular: FlaskConical,
+  neuro: Brain,
+  metabolic: Flame,
+  mobility: Bone,
+  vision: Eye,
+  detox: Leaf,
+  wellness: HeartPulse,
+};
+
+/** Menu labels drop the shared "Divine " prefix so the columns stay narrow. */
+function menuLabel(name: string): string {
+  return name.replace(/^Divine\s+/, "");
+}
+
+const productSeries = series.map((s) => ({
+  name: s.name,
+  href: `/shop?series=${s.slug}`,
+  icon: SERIES_ICONS[s.slug] ?? FlaskConical,
+  products: s.productIds
+    .map((id) => products.find((p) => p.id === id))
+    .filter((p): p is (typeof products)[number] => Boolean(p))
+    .map((p) => ({ name: menuLabel(p.name), href: `/shop/${p.id}` })),
+}));
 
 const navLinks = [
   { name: "Home", href: "/" },

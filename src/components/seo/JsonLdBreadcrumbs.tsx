@@ -4,7 +4,8 @@
  */
 type Crumb = { name: string; path: string };
 
-const BASE = 'https://mcfuntain.com';
+import { SITE_URL } from '@/lib/site';
+const BASE = SITE_URL;
 
 export default function JsonLdBreadcrumbs({ items }: { items: Crumb[] }) {
   const data = {

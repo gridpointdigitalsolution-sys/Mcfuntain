@@ -117,10 +117,14 @@ export default function ProductManualSection({
                     <p className="text-sm text-navy font-semibold py-3 text-center">{message}</p>
                   ) : (
                     <form onSubmit={submitEmail}>
-                      <label className="block text-xs font-bold uppercase tracking-wide text-navy mb-1.5">
+                      <label
+                        htmlFor="manual-email"
+                        className="block text-xs font-bold uppercase tracking-wide text-navy mb-1.5"
+                      >
                         Your email
                       </label>
                       <input
+                        id="manual-email"
                         type="email"
                         required
                         value={email}

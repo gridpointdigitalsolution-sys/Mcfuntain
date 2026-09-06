@@ -330,6 +330,7 @@ export default function FAQPage() {
               <input
                 type="text"
                 placeholder="Search for a question..."
+                  aria-label="Search frequently asked questions"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);

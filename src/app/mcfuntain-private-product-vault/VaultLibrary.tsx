@@ -606,8 +606,9 @@ function EmailModal({
         </div>
         <form onSubmit={submit} className="p-5 font-sans">
           <p className="text-xs text-[#9aa3b2] mb-3">Sending <span className="font-bold" style={{ color: NAVY }}>{item.name}</span></p>
-          <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: NAVY }}>Send to</label>
+          <label htmlFor="vault-send-to" className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: NAVY }}>Send to</label>
           <input
+            id="vault-send-to"
             type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
             placeholder="prospect@example.com"
             className="w-full rounded-lg border border-[#d9cdb0] px-3.5 py-2.5 text-sm text-[#2D2D2D] focus:outline-none focus:ring-2"

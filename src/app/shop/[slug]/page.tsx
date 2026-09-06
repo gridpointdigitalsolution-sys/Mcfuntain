@@ -5,6 +5,7 @@ import { getProducts, getProductBySlug, getProductsBySeries } from '@/lib/conten
 import ProductDetail from './ProductDetail';
 import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import { reviewsForProduct } from '@/data/reviews';
+import { SITE_URL } from '@/lib/site';
 
 // Revalidate so Sanity Studio edits appear on the live site within ~1 min
 export const revalidate = 60;
@@ -90,8 +91,8 @@ export default async function ProductPage({
     description: product.description,
     sku: product.id,
     category: `${product.series} Series`,
-    image: `https://mcfuntain.com${product.imageFolder}/bottle-1.jpg`,
-    url: `https://mcfuntain.com/shop/${product.id}`,
+    image: `${SITE_URL}${product.imageFolder}/bottle-1.jpg`,
+    url: `${SITE_URL}/shop/${product.id}`,
     brand: {
       "@type": "Brand",
       name: "McFuntain Nutraceuticals",
@@ -109,7 +110,7 @@ export default async function ProductPage({
       price: product.pricing.small.price,
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-      url: `https://mcfuntain.com/shop/${product.id}`,
+      url: `${SITE_URL}/shop/${product.id}`,
     },
   };
 

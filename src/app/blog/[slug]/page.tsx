@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
+import { SITE_URL } from '@/lib/site';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Calendar, Check, Clock } from 'lucide-react';
@@ -88,10 +89,10 @@ export default async function BlogPostPage({
     datePublished: post.date,
     dateModified: post.date,
     articleSection: post.category,
-    url: `https://mcfuntain.com/blog/${post.slug}`,
+    url: `${SITE_URL}/blog/${post.slug}`,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://mcfuntain.com/blog/${post.slug}`,
+      '@id': `${SITE_URL}/blog/${post.slug}`,
     },
     author: {
       '@type': 'Person',
@@ -102,7 +103,7 @@ export default async function BlogPostPage({
       name: 'McFuntain Nutraceuticals',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://mcfuntain.com/images/brand/logo-dark.png',
+        url: `${SITE_URL}/images/brand/logo-dark.png`,
       },
     },
   };

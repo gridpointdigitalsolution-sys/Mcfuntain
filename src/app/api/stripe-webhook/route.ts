@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe';
 import { deliverOrderManuals, type DeliveryLineItem } from '@/lib/order-delivery';
+import { SITE_URL } from '@/lib/site';
 
 /**
  * Stripe webhook.
@@ -57,9 +58,7 @@ function itemsFromMetadata(metadata: Stripe.Metadata | null): DeliveryLineItem[]
     .filter((i) => Boolean(i.productId));
 }
 
-function siteUrl(req: NextRequest): string {
-  return process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin || 'https://www.mcfuntain.com';
-}
+
 
 export async function POST(req: NextRequest) {
   const stripe = getStripe();
@@ -135,7 +134,7 @@ export async function POST(req: NextRequest) {
       email,
       items,
       shippingLine,
-      siteUrl: siteUrl(req),
+      siteUrl: SITE_URL,
       nowMs: Date.now(),
       orderId: session.id,
     });
