@@ -4,6 +4,7 @@ import { products } from '@/data/products';
 import { getProducts, getProductBySlug, getProductsBySeries } from '@/lib/content';
 import ProductDetail from './ProductDetail';
 import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
+import { reviewsForProduct } from '@/data/reviews';
 
 // Revalidate so Sanity Studio edits appear on the live site within ~1 min
 export const revalidate = 60;
@@ -68,6 +69,20 @@ export default async function ProductPage({
   );
   const related = [...sameSeries, ...fallback].slice(0, 4);
 
+  // Real customer testimonials written about THIS product, emitted as Review
+  // structured data. Products with no testimonial keep the aggregate rating only.
+  const productReviews = reviewsForProduct(product.name).map((t) => ({
+    "@type": "Review",
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: String(t.rating),
+      bestRating: "5",
+      worstRating: "1",
+    },
+    author: { "@type": "Person", name: t.name },
+    reviewBody: t.text,
+  }));
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -88,6 +103,7 @@ export default async function ProductPage({
       bestRating: "5",
       worstRating: "1",
     },
+    ...(productReviews.length > 0 ? { review: productReviews } : {}),
     offers: {
       "@type": "Offer",
       price: product.pricing.small.price,

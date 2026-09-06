@@ -8,6 +8,7 @@ import BackToTop from "@/components/BackToTop";
 import ScrollToTop from "@/components/ScrollToTop";
 import Preloader from "@/components/Preloader";
 import CursorGlow from "@/components/CursorGlow";
+import Analytics from "@/components/Analytics";
 import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
 
@@ -89,12 +90,14 @@ export default function RootLayout({
               logo: "https://mcfuntain.com/icon.png",
               description:
                 "Premium herbal supplements crafted with science-backed formulations",
+              email: "info@mcfuntain.com",
               founder: {
                 "@type": "Person",
                 name: "Rev. Dr. Gideon Afolabi",
               },
               address: {
                 "@type": "PostalAddress",
+                streetAddress: "11 Brubar Court",
                 addressLocality: "Gwynn Oak",
                 addressRegion: "MD",
                 addressCountry: "US",
@@ -108,6 +111,7 @@ export default function RootLayout({
             }),
           }}
         />
+        <Analytics />
         <Preloader />
         <CursorGlow />
         <CartProvider>
