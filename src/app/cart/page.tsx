@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Leaf,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useCart, type CartItem } from '@/context/CartContext';
 import PageHero from '@/components/ui/PageHero';
 
@@ -20,8 +21,7 @@ import PageHero from '@/components/ui/PageHero';
 // Constants
 // ---------------------------------------------------------------------------
 
-const FREE_SHIPPING_THRESHOLD = 99;
-const SHIPPING_COST = 8.99;
+import { FREE_SHIPPING_THRESHOLD, getQuantityDiscount, SHIPPING_COST } from '@/lib/cart-pricing';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -52,6 +52,47 @@ const itemVariants = {
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice } =
     useCart();
+
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [cancelled, setCancelled] = useState(false);
+
+  // Stripe sends the shopper back here with ?checkout=cancelled if they back out.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (new URLSearchParams(window.location.search).get('checkout') === 'cancelled') {
+      setCancelled(true);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
+  const handleCheckout = async () => {
+    if (checkingOut || items.length === 0) return;
+    setCheckingOut(true);
+    setCheckoutError(null);
+    setCancelled(false);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // Identity and quantity only — the server prices the order itself.
+        body: JSON.stringify({
+          items: items.map((i) => ({ productId: i.productId, size: i.size, quantity: i.quantity })),
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; url?: string; error?: string };
+
+      if (!res.ok || !data.ok || !data.url) {
+        setCheckoutError(data.error || 'We could not start checkout. Please try again in a moment.');
+        return;
+      }
+      window.location.href = data.url;
+    } catch {
+      setCheckoutError('We could not reach the server. Please check your connection and try again.');
+    } finally {
+      setCheckingOut(false);
+    }
+  };
 
   const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
   const orderTotal = totalPrice + shippingCost;
@@ -213,14 +254,27 @@ export default function CartPage() {
 
                 {/* Checkout button */}
                 <div className="px-6 pb-6">
+                  {cancelled && (
+                    <p role="status" className="mb-3 rounded-lg border border-gold/40 bg-beige/70 px-4 py-3 text-sm text-navy">
+                      Checkout was cancelled. Your cart is exactly as you left it.
+                    </p>
+                  )}
+
+                  {checkoutError && (
+                    <p role="alert" className="mb-3 rounded-lg border border-gold/40 bg-beige/70 px-4 py-3 text-sm text-navy">
+                      {checkoutError}
+                    </p>
+                  )}
+
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => alert('Checkout coming soon')}
-                    className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white font-heading font-bold uppercase tracking-[0.1em] text-base rounded-xl shadow-lg shadow-gold/25 hover:shadow-xl hover:shadow-gold/35 transition-shadow duration-300"
+                    onClick={handleCheckout}
+                    disabled={checkingOut || items.length === 0}
+                    whileHover={checkingOut ? undefined : { scale: 1.02 }}
+                    whileTap={checkingOut ? undefined : { scale: 0.98 }}
+                    className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white font-heading font-bold uppercase tracking-[0.1em] text-base rounded-xl shadow-lg shadow-gold/25 hover:shadow-xl hover:shadow-gold/35 transition-shadow duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <ShieldCheck className="w-5 h-5" />
-                    Proceed to Checkout
+                    {checkingOut ? 'Starting Checkout...' : 'Proceed to Checkout'}
                   </motion.button>
                   <p className="mt-3 text-center text-xs text-muted">
                     Secure checkout powered by SSL encryption
@@ -346,7 +400,7 @@ function CartItemRow({
   onRemove: () => void;
   onUpdateQuantity: (qty: number) => void;
 }) {
-  const discount = item.quantity >= 3 ? 0.30 : item.quantity >= 2 ? 0.20 : 0;
+  const discount = getQuantityDiscount(item.quantity);
   const lineTotal = item.price * item.quantity * (1 - discount);
   const originalTotal = item.price * item.quantity;
   const sizeLabel = item.size === 'small' ? 'Standard' : 'Value Size';

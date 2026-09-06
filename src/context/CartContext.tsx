@@ -1,5 +1,6 @@
 'use client';
 
+import { getQuantityDiscount } from '@/lib/cart-pricing';
 import {
   createContext,
   useContext,
@@ -42,11 +43,7 @@ const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 const STORAGE_KEY = 'mcfuntain-cart';
 
-function getQuantityDiscount(quantity: number): number {
-  if (quantity >= 3) return 0.30;
-  if (quantity >= 2) return 0.20;
-  return 0;
-}
+
 
 // ---------------------------------------------------------------------------
 // Provider
