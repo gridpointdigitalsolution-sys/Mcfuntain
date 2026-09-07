@@ -22,6 +22,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { socialLinks } from '@/data/social';
 
 const oswald = Oswald({ subsets: ['latin'], weight: ['500', '600', '700'] });
 
@@ -51,12 +52,7 @@ const slides: Slide[] = [
 const SLIDE_MS = 6500;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const socials = [
-  { label: 'Facebook', short: 'Fb', href: '#' },
-  { label: 'Twitter / X', short: 'X', href: '#' },
-  { label: 'Instagram', short: 'Ig', href: '#' },
-  { label: 'YouTube', short: 'Yt', href: '#' },
-];
+
 
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
@@ -280,11 +276,17 @@ export default function Hero({ videoBg = false }: { videoBg?: boolean }) {
       <div className="hidden lg:flex flex-col items-center gap-4 absolute left-12 xl:left-16 top-1/2 -translate-y-1/2 z-30">
         <span className="text-[11px] tracking-[0.32em] text-white/45 font-semibold [writing-mode:vertical-rl] rotate-180">FOLLOW</span>
         <span className="w-px h-10 bg-gradient-to-b from-gold/50 to-transparent" />
-        {socials.map(({ label, short, href }) => (
-          <Link key={label} href={href} aria-label={label}
-            className="grid place-items-center w-8 h-8 rounded-full border border-white/15 text-[10px] font-bold text-white/50 hover:text-ink hover:bg-gold hover:border-gold transition-all duration-300">
+        {socialLinks.map(({ name, short, href }) => (
+          <a
+            key={name}
+            href={href}
+            aria-label={name}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="grid place-items-center w-8 h-8 rounded-full border border-white/15 text-[10px] font-bold text-white/50 hover:text-ink hover:bg-gold hover:border-gold transition-all duration-300"
+          >
             {short}
-          </Link>
+          </a>
         ))}
       </div>
 

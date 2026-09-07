@@ -282,6 +282,8 @@ export default function Footer() {
                     key={social.name}
                     href={social.href}
                     aria-label={social.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 hover:-translate-y-0.5 hover:border-gold/50 hover:bg-gold/10 hover:text-gold-light"
                   >
                     <Icon />

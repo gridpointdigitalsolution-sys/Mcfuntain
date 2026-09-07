@@ -11,6 +11,7 @@ import CursorGlow from "@/components/CursorGlow";
 import Analytics from "@/components/Analytics";
 import { CartProvider } from "@/context/CartContext";
 import { SITE_URL } from "@/lib/site";
+import { socialLinks } from "@/data/social";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -104,12 +105,7 @@ export default function RootLayout({
                 addressRegion: "MD",
                 addressCountry: "US",
               },
-              sameAs: [
-                "https://facebook.com/mcfuntain",
-                "https://instagram.com/mcfuntain",
-                "https://x.com/mcfuntain",
-                "https://linkedin.com/company/mcfuntain",
-              ],
+              sameAs: socialLinks.map((s) => s.href),
             }),
           }}
         />
