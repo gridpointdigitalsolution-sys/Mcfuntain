@@ -43,7 +43,7 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Call Us',
-    value: '(410) 555-0172',
+    value: '+1 (443) 210-1160',
     detail: 'Mon - Fri, 9am - 6pm EST',
   },
   {

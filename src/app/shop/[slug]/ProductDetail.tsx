@@ -27,6 +27,7 @@ import ProductCard from '@/components/ui/ProductCard';
 import Disclaimer from '@/components/ui/Disclaimer';
 import ProductManualSection from '@/components/product/ProductManualSection';
 import { useCart } from '@/context/CartContext';
+import { reviewsForProduct } from '@/data/reviews';
 import type { Product } from '@/data/products';
 
 // ---------------------------------------------------------------------------
@@ -125,46 +126,20 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Static reviews (tasteful, generic; FAQ content rendered separately below)
-// ---------------------------------------------------------------------------
-
-const STATIC_REVIEWS = [
-  {
-    name: 'Margaret O.',
-    stars: 5,
-    title: 'Worth every penny',
-    text: 'I was skeptical about herbal supplements, but after six weeks I genuinely feel the difference. Clean ingredients, no fillers, and the bottles arrived beautifully packaged.',
-    verified: true,
-  },
-  {
-    name: 'David A.',
-    stars: 5,
-    title: 'The premium bundle is the way to go',
-    text: 'Started with one bottle, came back for the premium pack. Consistency is everything with botanicals and the bundle keeps me stocked without thinking about it.',
-    verified: true,
-  },
-  {
-    name: 'Chinwe E.',
-    stars: 4,
-    title: 'Noticeable results, gentle on the stomach',
-    text: 'Most formulas upset my digestion. This one is gentle, easy to take with meals, and I started noticing real changes around week three. Will reorder.',
-    verified: true,
-  },
-  {
-    name: 'Samuel K.',
-    stars: 5,
-    title: 'Quality you can feel',
-    text: 'You can tell these are properly sourced botanicals. The taglines are not just marketing — the timeline they describe matched my experience almost exactly.',
-    verified: false,
-  },
-] as const;
 
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
 
 export default function ProductDetail({ product, relatedProducts }: ProductDetailProps) {
+  // Real customer testimonials written about THIS product. Most products have
+  // none, and the page says so rather than filling the gap with invented copy.
+  const productReviews = reviewsForProduct(product.name);
+  const averageRating =
+    productReviews.length > 0
+      ? productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
+      : 0;
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedTier, setSelectedTier] = useState<'small' | 'large'>('small');
   const [quantity, setQuantity] = useState(1);
@@ -380,22 +355,27 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                 </h1>
               </Reveal>
 
-              {/* Stars */}
-              <Reveal delay={0.08}>
-                <div className="mt-4 flex items-center gap-3">
-                  <div className="flex items-center gap-0.5">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className="w-4 h-4 md:w-[18px] md:h-[18px]"
-                        fill="#D4A017"
-                        stroke="#D4A017"
-                      />
-                    ))}
+              {/* Rating - rendered only where this product actually has reviews */}
+              {productReviews.length > 0 && (
+                <Reveal delay={0.08}>
+                  <div className="mt-4 flex items-center gap-3">
+                    <div className="flex items-center gap-0.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className="w-4 h-4 md:w-[18px] md:h-[18px]"
+                          fill={star <= Math.round(averageRating) ? '#D4A017' : 'none'}
+                          stroke={star <= Math.round(averageRating) ? '#D4A017' : '#E8DFD0'}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm text-muted">
+                      {averageRating.toFixed(1)} / 5 ({productReviews.length}{' '}
+                      {productReviews.length === 1 ? 'review' : 'reviews'})
+                    </span>
                   </div>
-                  <span className="text-sm text-muted">4.8 / 5 (120+ reviews)</span>
-                </div>
-              </Reveal>
+                </Reveal>
+              )}
 
               {/* Tagline — Playfair italic */}
               <Reveal delay={0.1}>
@@ -841,56 +821,84 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                 {/* ---------------- REVIEWS ---------------- */}
                 {activeTab === 'reviews' && (
                   <div className="max-w-4xl mx-auto">
-                    {/* Summary */}
-                    <div className="text-center mb-10">
-                      <div className="flex items-center justify-center gap-1">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                          <Star key={s} className="w-6 h-6" fill="#D4A017" stroke="#D4A017" />
-                        ))}
-                      </div>
-                      <p className="mt-3 font-heading text-3xl md:text-4xl font-bold text-ink">
-                        4.8 <span className="text-xl text-muted font-medium">/ 5</span>
-                      </p>
-                      <p className="mt-1 text-sm text-muted">Based on 120+ verified reviews</p>
-                    </div>
-
-                    {/* Review cards */}
-                    <div className="grid sm:grid-cols-2 gap-5">
-                      {STATIC_REVIEWS.map((review, i) => (
-                        <motion.div
-                          key={review.name}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
-                          className="p-6 rounded-2xl bg-cream border border-beige-dark/30 h-full flex flex-col"
-                        >
-                          <div className="flex items-center gap-0.5">
+                    {productReviews.length > 0 ? (
+                      <>
+                        {/* Summary - computed from the reviews actually shown below */}
+                        <div className="text-center mb-10">
+                          <div className="flex items-center justify-center gap-1">
                             {[1, 2, 3, 4, 5].map((s) => (
                               <Star
                                 key={s}
-                                className="w-4 h-4"
-                                fill={s <= review.stars ? '#D4A017' : 'none'}
-                                stroke={s <= review.stars ? '#D4A017' : '#E8DFD0'}
+                                className="w-6 h-6"
+                                fill={s <= Math.round(averageRating) ? '#D4A017' : 'none'}
+                                stroke={s <= Math.round(averageRating) ? '#D4A017' : '#E8DFD0'}
                               />
                             ))}
                           </div>
-                          <h4 className="mt-3 font-heading text-base md:text-lg font-bold uppercase text-ink">
-                            {review.title}
-                          </h4>
-                          <p className="mt-2 text-sm md:text-base text-muted leading-relaxed flex-1">
-                            {review.text}
+                          <p className="mt-3 font-heading text-3xl md:text-4xl font-bold text-ink">
+                            {averageRating.toFixed(1)}{' '}
+                            <span className="text-xl text-muted font-medium">/ 5</span>
                           </p>
-                          <div className="mt-4 flex items-center gap-2 text-sm">
-                            <span className="font-semibold text-ink">{review.name}</span>
-                            {review.verified && (
-                              <span className="inline-flex items-center gap-1 text-xs text-gold-deep font-medium">
-                                <Check className="w-3 h-3" /> Verified Buyer
-                              </span>
-                            )}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                          <p className="mt-1 text-sm text-muted">
+                            Based on {productReviews.length}{' '}
+                            {productReviews.length === 1 ? 'customer review' : 'customer reviews'}
+                          </p>
+                        </div>
+
+                        {/* Review cards */}
+                        <div className="grid sm:grid-cols-2 gap-5">
+                          {productReviews.map((review, i) => (
+                            <motion.div
+                              key={review.name}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
+                              className="p-6 rounded-2xl bg-cream border border-beige-dark/30 h-full flex flex-col"
+                            >
+                              <div className="flex items-center gap-0.5">
+                                {[1, 2, 3, 4, 5].map((s) => (
+                                  <Star
+                                    key={s}
+                                    className="w-4 h-4"
+                                    fill={s <= review.rating ? '#D4A017' : 'none'}
+                                    stroke={s <= review.rating ? '#D4A017' : '#E8DFD0'}
+                                  />
+                                ))}
+                              </div>
+                              <p className="mt-3 text-sm md:text-base text-muted leading-relaxed flex-1">
+                                {review.text}
+                              </p>
+                              <div className="mt-4 flex items-center gap-2 text-sm">
+                                <span className="font-semibold text-ink">{review.name}</span>
+                                <span className="text-xs text-muted">{review.location}</span>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      /* Nobody has reviewed this formulation yet. Say so plainly. */
+                      <div className="mx-auto max-w-xl rounded-2xl border border-beige-dark/40 bg-cream px-8 py-12 text-center">
+                        <div className="flex items-center justify-center gap-1">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star key={s} className="w-5 h-5" fill="none" stroke="#E8DFD0" />
+                          ))}
+                        </div>
+                        <p className="mt-4 font-heading text-lg font-bold uppercase tracking-wide text-ink">
+                          No reviews yet
+                        </p>
+                        <p className="mt-2 text-sm text-muted">
+                          This formulation has not been reviewed on the site yet. If you have taken it,
+                          we would genuinely like to hear how you got on.
+                        </p>
+                        <Link
+                          href="/contact"
+                          className="mt-5 inline-flex items-center rounded-full border border-navy/20 px-6 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-navy transition-colors duration-300 hover:bg-navy/5"
+                        >
+                          Share your experience
+                        </Link>
+                      </div>
+                    )}
 
                     {/* FAQ accordion */}
                     {product.faq && product.faq.length > 0 && (

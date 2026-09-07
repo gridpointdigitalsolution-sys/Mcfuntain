@@ -72,7 +72,8 @@ export default async function ProductPage({
 
   // Real customer testimonials written about THIS product, emitted as Review
   // structured data. Products with no testimonial keep the aggregate rating only.
-  const productReviews = reviewsForProduct(product.name).map((t) => ({
+  const productReviews = reviewsForProduct(product.name);
+  const reviewLd = productReviews.map((t) => ({
     "@type": "Review",
     reviewRating: {
       "@type": "Rating",
@@ -97,14 +98,23 @@ export default async function ProductPage({
       "@type": "Brand",
       name: "McFuntain Nutraceuticals",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "120",
-      bestRating: "5",
-      worstRating: "1",
-    },
-    ...(productReviews.length > 0 ? { review: productReviews } : {}),
+    // An aggregateRating is emitted only where real reviews exist for THIS
+    // product, and it is computed from them. A single hardcoded figure repeated
+    // across the catalogue is what Google penalises.
+    ...(productReviews.length > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: (
+              productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length
+            ).toFixed(1),
+            reviewCount: String(productReviews.length),
+            bestRating: "5",
+            worstRating: "1",
+          },
+        }
+      : {}),
+    ...(reviewLd.length > 0 ? { review: reviewLd } : {}),
     offers: {
       "@type": "Offer",
       price: product.pricing.small.price,

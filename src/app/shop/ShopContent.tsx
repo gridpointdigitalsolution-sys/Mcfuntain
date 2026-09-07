@@ -14,7 +14,6 @@ import {
   ChevronRight,
   X,
   Eye,
-  Star,
   ShoppingCart,
   Check,
   ArrowRight,
@@ -69,44 +68,6 @@ const sortOptions: { value: SortOption; label: string }[] = [
   { value: 'name-asc', label: 'A – Z' },
 ];
 
-// Deterministic pseudo-rating (4.5–5.0) derived from product id so it's stable.
-function ratingFor(id: string): number {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  return Math.round((4.5 + (h % 6) / 10) * 10) / 10; // 4.5 .. 5.0
-}
-
-// ---------------------------------------------------------------------------
-// Star rating row
-// ---------------------------------------------------------------------------
-
-function StarRating({ value }: { value: number }) {
-  return (
-    <div className="flex items-center gap-1">
-      <div className="flex">
-        {[0, 1, 2, 3, 4].map((i) => {
-          const filled = value - i >= 0.75;
-          const half = !filled && value - i >= 0.25;
-          return (
-            <span key={i} className="relative inline-block h-3.5 w-3.5">
-              <Star className="absolute inset-0 h-3.5 w-3.5 text-beige-dark" fill="currentColor" />
-              {(filled || half) && (
-                <span
-                  className="absolute inset-0 overflow-hidden"
-                  style={{ width: filled ? '100%' : '50%' }}
-                >
-                  <Star className="h-3.5 w-3.5 text-gold" fill="currentColor" />
-                </span>
-              )}
-            </span>
-          );
-        })}
-      </div>
-      <span className="text-xs font-semibold text-muted tabular-nums">{value.toFixed(1)}</span>
-    </div>
-  );
-}
-
 // ---------------------------------------------------------------------------
 // Product card
 // ---------------------------------------------------------------------------
@@ -124,7 +85,6 @@ function ShopCard({
 }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
-  const rating = ratingFor(product.id);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -172,7 +132,6 @@ function ShopCard({
             >
               {product.series}
             </span>
-            <StarRating value={rating} />
             <h3 className="mt-1 truncate font-heading text-lg font-bold uppercase leading-tight tracking-tight text-ink transition-colors group-hover:text-gold-deep sm:text-xl">
               {product.name}
             </h3>
@@ -246,7 +205,6 @@ function ShopCard({
 
           {/* Body */}
           <div className="flex flex-1 flex-col p-5">
-            <StarRating value={rating} />
 
             <h3 className="mt-2.5 font-heading text-[19px] font-bold uppercase leading-tight tracking-tight text-ink transition-colors duration-300 group-hover:text-gold-deep">
               {product.name}
@@ -342,7 +300,6 @@ function QuickViewBody({
 
             {/* Details */}
             <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-6 sm:p-8">
-              <StarRating value={ratingFor(product.id)} />
               <h2 className="mt-2 font-heading text-2xl font-bold uppercase leading-tight tracking-tight text-ink sm:text-3xl">
                 {product.name}
               </h2>

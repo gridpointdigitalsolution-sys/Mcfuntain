@@ -92,6 +92,7 @@ export default function RootLayout({
               description:
                 "Premium herbal supplements crafted with science-backed formulations",
               email: "info@mcfuntain.com",
+              telephone: "+1-443-210-1160",
               founder: {
                 "@type": "Person",
                 name: "Rev. Dr. Gideon Afolabi",
