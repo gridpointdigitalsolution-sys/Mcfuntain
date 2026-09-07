@@ -335,7 +335,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 110 },
-      large: { count: 3, price: 291.99 },
+      large: { count: 3, price: 270.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/longevity-30",
@@ -433,7 +433,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 110 },
-      large: { count: 3, price: 291.99 },
+      large: { count: 3, price: 270.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/longevity-50",
@@ -525,7 +525,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 99 },
-      large: { count: 3, price: 160.99 },
+      large: { count: 3, price: 222.99 },
     },
     bottleSizes: [60, 120],
     imageFolder: "/images/products/cogniboost",
@@ -627,7 +627,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 72 },
-      large: { count: 3, price: 210.99 },
+      large: { count: 3, price: 176.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/nerve-renewal",
@@ -719,7 +719,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 119 },
-      large: { count: 3, price: 305.99 },
+      large: { count: 3, price: 292.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/neuro-restore",
@@ -817,7 +817,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 99 },
-      large: { count: 3, price: 260 },
+      large: { count: 3, price: 243.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/glucose-balance",
@@ -925,7 +925,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 76 },
-      large: { count: 3, price: 199 },
+      large: { count: 3, price: 186.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/thyroid-balance",
@@ -1017,7 +1017,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 60.99 },
-      large: { count: 3, price: 160.99 },
+      large: { count: 3, price: 149.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/belly-fat-balance",
@@ -1115,7 +1115,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 90 },
-      large: { count: 3, price: 250 },
+      large: { count: 3, price: 220.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/joint-bone",
@@ -1213,7 +1213,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 120 },
-      large: { count: 3, price: 199 },
+      large: { count: 3, price: 270.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/lumbar-restore",
@@ -1317,7 +1317,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 49 },
-      large: { count: 3, price: 160 },
+      large: { count: 3, price: 120.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/vision-support",
@@ -1713,7 +1713,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 85 },
-      large: { count: 3, price: 270 },
+      large: { count: 3, price: 208.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/varicose-veins",
@@ -1805,7 +1805,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 59 },
-      large: { count: 3, price: 125 },
+      large: { count: 3, price: 132.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/fresh-breath",
@@ -1909,7 +1909,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 80 },
-      large: { count: 3, price: 260 },
+      large: { count: 3, price: 196.99 },
     },
     bottleSizes: [60, 120],
     imageFolder: "/images/products/libido",
@@ -2001,7 +2001,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 99 },
-      large: { count: 3, price: 260 },
+      large: { count: 3, price: 243.99 },
     },
     bottleSizes: [60, 120],
     imageFolder: "/images/products/blood-booster",
@@ -2205,7 +2205,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 78 },
-      large: { count: 3, price: 160 },
+      large: { count: 3, price: 175.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/female-fertility",
@@ -2303,7 +2303,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 120, price: 78 },
-      large: { count: 3, price: 160 },
+      large: { count: 3, price: 175.99 },
     },
     bottleSizes: [120],
     imageFolder: "/images/products/male-fertility",
@@ -2401,7 +2401,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 60, price: 69 },
-      large: { count: 3, price: 200 },
+      large: { count: 3, price: 169.99 },
     },
     bottleSizes: [60],
     imageFolder: "/images/products/respiratory-shield",
@@ -2500,7 +2500,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 60, price: 69 },
-      large: { count: 3, price: 200 },
+      large: { count: 3, price: 169.99 },
     },
     bottleSizes: [60],
     imageFolder: "/images/products/gerd-respiratory",
@@ -2565,7 +2565,7 @@ export const products: Product[] = [
     },
     pricing: {
       small: { count: 60, price: 69 },
-      large: { count: 3, price: 200 },
+      large: { count: 3, price: 169.99 },
     },
     bottleSizes: [60],
     imageFolder: "/images/products/ulcer-care",

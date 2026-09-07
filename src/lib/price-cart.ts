@@ -1,5 +1,5 @@
 import 'server-only';
-import { products } from '@/data/products';
+import { getProducts } from '@/lib/content';
 import {
   FREE_SHIPPING_THRESHOLD,
   getQuantityDiscount,
@@ -16,6 +16,12 @@ import {
  * Prices always come from the catalogue, never from the request body — a
  * browser can send any number it likes, so nothing it sends about money is
  * trusted. Shares its constants with the cart UI via ./cart-pricing.
+ *
+ * The catalogue is read through getProducts(), the SAME merged source the shop
+ * and product pages render from, so a price edited in Sanity Studio changes what
+ * the customer is charged and what they were shown together. Reading the raw
+ * local file here instead would let the displayed price and the charged price
+ * drift apart the moment anyone edited a price in the Studio.
  */
 
 function round2(n: number): number {
@@ -34,7 +40,8 @@ function describe(size: CartSize, capsuleCount: number, bottles: number): string
  * Unknown products and non-positive quantities are dropped rather than guessed
  * at. Quantity is capped so a malformed request cannot create an absurd order.
  */
-export function priceCart(requested: RequestedLine[]): PricedCart {
+export async function priceCart(requested: RequestedLine[]): Promise<PricedCart> {
+  const products = await getProducts();
   const lines: PricedLine[] = [];
 
   for (const line of requested) {

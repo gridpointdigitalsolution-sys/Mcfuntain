@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     quantity: Number(raw?.quantity) || 0,
   }));
 
-  const cart = priceCart(requested);
+  const cart = await priceCart(requested);
   if (cart.lines.length === 0) {
     return NextResponse.json(
       { ok: false, error: 'We could not match those items to our catalogue. Please refresh and try again.' },
