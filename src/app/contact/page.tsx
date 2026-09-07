@@ -31,7 +31,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: 'Visit Us',
-    value: '11 Brubar Court, Gwynn Oak, MD',
+    value: 'Gwynn Oak, Maryland',
     detail: 'United States',
   },
   {
@@ -508,7 +508,7 @@ export default function ContactPage() {
                     <h3 className="font-heading font-bold uppercase text-lg text-white mb-1">
                       McFuntain Nutraceuticals
                     </h3>
-                    <p className="text-white/65 text-sm">11 Brubar Court, Gwynn Oak, MD</p>
+                    <p className="text-white/65 text-sm">Gwynn Oak, Maryland, USA</p>
                     <p className="text-white/45 text-sm">United States</p>
                   </div>
                 </motion.div>

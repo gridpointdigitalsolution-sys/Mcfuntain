@@ -100,7 +100,6 @@ export default function RootLayout({
               },
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "11 Brubar Court",
                 addressLocality: "Gwynn Oak",
                 addressRegion: "MD",
                 addressCountry: "US",

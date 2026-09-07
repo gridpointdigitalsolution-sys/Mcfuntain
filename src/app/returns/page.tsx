@@ -123,7 +123,7 @@ export default function Returns() {
                   <LegalSection id="contact-returns" title="Contact Returns Department">
                     <p>
                       McFuntain Nutraceuticals<br />
-                      11 Brubar Court, Gwynn Oak, MD, USA<br />
+                      Gwynn Oak, Maryland, USA<br />
                       Email: support@mcfuntain.com
                     </p>
                     <p>Include your order number for faster processing.</p>

@@ -158,7 +158,7 @@ export default function Terms() {
                     </p>
                     <p>
                       McFuntain Nutraceuticals<br />
-                      11 Brubar Court, Gwynn Oak, MD, USA<br />
+                      Gwynn Oak, Maryland, USA<br />
                       Email: support@mcfuntain.com
                     </p>
                   </LegalSection>

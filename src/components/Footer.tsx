@@ -341,7 +341,7 @@ export default function Footer() {
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
             <span className="flex items-center gap-1.5 text-sm text-white/50">
               <MapPin size={12} className="text-gold/60" />
-              11 Brubar Court, Gwynn Oak, MD, USA
+              Gwynn Oak, Maryland, USA
             </span>
 
             <span className="flex items-center gap-1.5 text-sm text-white/50">
