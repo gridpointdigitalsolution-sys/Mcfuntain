@@ -313,6 +313,14 @@ function QuickViewBody({
               {/* Pricing tiers */}
               <div className="mt-6 grid grid-cols-2 gap-3">
                 {(['small', 'large'] as const).map((key) => {
+                  // Real saving of the pack versus the same number of singles.
+                  // Floored, so the advertised number can never overstate it.
+                  const premiumSavePct = Math.floor(
+                    (1 -
+                      product.pricing.large.price /
+                        (product.pricing.small.price * product.pricing.large.count)) *
+                      100,
+                  );
                   const tier = product.pricing[key];
                   const isPremium = key === 'large';
                   const selected = size === key;
@@ -327,9 +335,9 @@ function QuickViewBody({
                           : 'border-beige-dark/60 bg-white hover:border-gold/40'
                       }`}
                     >
-                      {isPremium && (
+                      {isPremium && premiumSavePct > 0 && (
                         <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy px-2.5 py-0.5 font-heading text-[9px] font-bold uppercase tracking-widest text-gold-light">
-                          Best Value · 20% Off
+                          Best Value · Save {premiumSavePct}%
                         </span>
                       )}
                       <span className="block font-heading text-[11px] font-bold uppercase tracking-widest text-muted">

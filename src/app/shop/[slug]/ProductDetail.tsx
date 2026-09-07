@@ -156,9 +156,11 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   const bottlesInBundle = large.count;
   // What the bundle would cost bought as singles vs. its actual price
   const equivalentSinglesPrice = small.price * bottlesInBundle;
+  // Floored, never rounded up: an advertised saving must always be one the
+  // customer can verify from the two prices shown beside it.
   const savePct = Math.max(
     0,
-    Math.round((1 - large.price / equivalentSinglesPrice) * 100),
+    Math.floor((1 - large.price / equivalentSinglesPrice) * 100),
   );
   const perBottlePremium = large.price / bottlesInBundle;
 
@@ -439,11 +441,13 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                         : 'border-gold/50 bg-white hover:border-gold'
                     }`}
                   >
-                    <div className="absolute -top-3 left-4">
-                      <span className="px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] uppercase bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white rounded-full shadow-sm">
-                        Best Value{savePct > 0 ? ` · Save ${savePct}%` : ''}
-                      </span>
-                    </div>
+                    {savePct > 0 && (
+                      <div className="absolute -top-3 left-4">
+                        <span className="px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] uppercase bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white rounded-full shadow-sm">
+                          Best Value · Save {savePct}%
+                        </span>
+                      </div>
+                    )}
                     {selectedTier === 'large' && (
                       <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-gold flex items-center justify-center">
                         <Check className="w-3 h-3 text-white" />
@@ -465,9 +469,11 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                         </span>
                       )}
                     </div>
-                    <div className="mt-1 text-xs text-gold-deep font-medium">
-                      Only ${perBottlePremium.toFixed(2)} per bottle
-                    </div>
+                    {perBottlePremium < small.price && (
+                      <div className="mt-1 text-xs text-gold-deep font-medium">
+                        Only ${perBottlePremium.toFixed(2)} per bottle
+                      </div>
+                    )}
                   </button>
                 </div>
               </Reveal>
