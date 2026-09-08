@@ -132,6 +132,16 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobile]);
 
+  /* Close every menu whenever the route changes. Relying on each link's own
+     onClick left the drawer covering the page if any link was missed, and it
+     never closed on a browser back/forward navigation. */
+  useEffect(() => {
+    setTap(false);
+    setHover(false);
+    setMobile(false);
+    setMShop(false);
+  }, [pathname]);
+
   const onEnter = useCallback(() => { if (hoverTimer.current) clearTimeout(hoverTimer.current); setHover(true); }, []);
   const onLeave = useCallback(() => { hoverTimer.current = setTimeout(() => setHover(false), 180); }, []);
   const closeAll = useCallback(() => { setTap(false); setHover(false); setMobile(false); setMShop(false); }, []);
@@ -152,17 +162,35 @@ export default function Navbar() {
                 const active = isActive(l.href);
                 return l.dropdown ? (
                   <li key={l.name} className="relative" onMouseEnter={onEnter} onMouseLeave={onLeave}>
-                    <button
-                      onClick={() => setTap((v) => !v)}
-                      aria-expanded={shopOpen}
-                      className={`flex items-center gap-2 px-6 py-3 rounded-full text-[15px] font-extrabold uppercase tracking-[0.12em] transition-all duration-300 ${
+                    {/* The word navigates to /shop; the chevron opens the menu.
+                        Previously the whole thing was a button that only toggled
+                        the dropdown, so clicking "Shop" never reached the page. */}
+                    <div
+                      className={`flex items-center rounded-full text-[15px] font-extrabold uppercase tracking-[0.12em] transition-all duration-300 ${
                         shopOpen || active
                           ? "bg-gold-deep text-white shadow-lg shadow-gold/45 scale-[1.04]"
                           : "bg-gradient-to-r from-gold-deep via-gold to-gold-light text-white shadow-lg shadow-gold/30 hover:shadow-xl hover:shadow-gold/55 hover:-translate-y-[2px]"
                       }`}
                     >
-                      Shop <motion.span animate={{ rotate: shopOpen ? 180 : 0 }} transition={{ duration: 0.3 }}><ChevronDown size={17} strokeWidth={2.6} /></motion.span>
-                    </button>
+                      <Link
+                        href="/shop"
+                        onClick={closeAll}
+                        className="py-3 pl-6 pr-2 rounded-l-full"
+                      >
+                        Shop
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setTap((v) => !v)}
+                        aria-expanded={shopOpen}
+                        aria-label={shopOpen ? "Close the shop menu" : "Open the shop menu"}
+                        className="py-3 pr-5 pl-1 rounded-r-full"
+                      >
+                        <motion.span className="block" animate={{ rotate: shopOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                          <ChevronDown size={17} strokeWidth={2.6} />
+                        </motion.span>
+                      </button>
+                    </div>
                     {active && <motion.span layoutId="nav-active" className="pointer-events-none absolute -bottom-2 left-3 right-3 h-[3px] rounded-full bg-navy" />}
                     <AnimatePresence>
                       {shopOpen && (
@@ -217,9 +245,26 @@ export default function Navbar() {
                 {navLinks.map((l) =>
                   l.dropdown ? (
                     <div key={l.name}>
-                      <button onClick={() => setMShop((v) => !v)} className={`w-full flex items-center justify-between px-4 py-3.5 text-[18px] font-extrabold uppercase tracking-wide rounded-xl border-l-[3px] transition ${isActive("/shop") ? "text-navy bg-navy/5 border-navy" : "text-ink border-transparent"}`}>
-                        Shop <motion.span animate={{ rotate: mShop ? 180 : 0 }} transition={{ duration: 0.3 }}><ChevronDown size={20} /></motion.span>
-                      </button>
+                      {/* Tapping "Shop" opens the shop page; the chevron expands
+                          the series list. It used to only expand. */}
+                      <div className={`w-full flex items-center justify-between rounded-xl border-l-[3px] transition ${isActive("/shop") ? "text-navy bg-navy/5 border-navy" : "text-ink border-transparent"}`}>
+                        <Link
+                          href="/shop"
+                          onClick={closeAll}
+                          className="flex-1 px-4 py-3.5 text-[18px] font-extrabold uppercase tracking-wide"
+                        >
+                          Shop
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setMShop((v) => !v)}
+                          aria-expanded={mShop}
+                          aria-label={mShop ? "Hide product series" : "Show product series"}
+                          className="px-4 py-3.5"
+                        >
+                          <motion.span className="block" animate={{ rotate: mShop ? 180 : 0 }} transition={{ duration: 0.3 }}><ChevronDown size={20} /></motion.span>
+                        </button>
+                      </div>
                       <AnimatePresence>
                         {mShop && (
                           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
