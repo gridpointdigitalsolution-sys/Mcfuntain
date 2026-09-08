@@ -31,10 +31,7 @@ export const socialLinks: SocialLink[] = [
   { name: 'Instagram', href: 'https://www.instagram.com/mcfuntain/', icon: SocialInstagram },
   { name: 'X', href: 'https://x.com/mcfuntain0', icon: SocialX },
   { name: 'YouTube', href: 'https://www.youtube.com/@McfuntainNutraceuticals', icon: SocialYouTube },
-  // TikTok handle not supplied yet. Rendered as a non-interactive icon rather
-  // than a link, so it never sends anyone to a page that does not exist. Add
-  // the URL here and it becomes a real link everywhere automatically.
-  { name: 'TikTok', href: null, icon: SocialTikTok },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@mcfuntainnutraceuticals', icon: SocialTikTok },
 ];
 
 /** Profiles with a confirmed URL — the only ones safe to hand to Google. */
