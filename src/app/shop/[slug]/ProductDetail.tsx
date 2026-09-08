@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
@@ -22,6 +22,7 @@ import {
   ArrowRight,
   FlaskConical,
   Quote,
+  ChevronLeft,
 } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import Disclaimer from '@/components/ui/Disclaimer';
@@ -146,6 +147,41 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
   const [activeTab, setActiveTab] = useState<TabId>('description');
   const [showStickyBar, setShowStickyBar] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  // ----- Mobile tab strip: make it obvious the tabs scroll -------------------
+  // On a phone the four tabs overflow, and nothing signalled that. We track how
+  // far the strip is scrolled so the edge fades and arrows only appear on the
+  // side that actually has more to reveal.
+  const tabStripRef = useRef<HTMLDivElement>(null);
+  const [tabOverflow, setTabOverflow] = useState({ left: false, right: false });
+
+  const syncTabOverflow = useCallback(() => {
+    const el = tabStripRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setTabOverflow({
+      left: el.scrollLeft > 4,
+      right: max > 4 && el.scrollLeft < max - 4,
+    });
+  }, []);
+
+  useEffect(() => {
+    syncTabOverflow();
+    const el = tabStripRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', syncTabOverflow, { passive: true });
+    window.addEventListener('resize', syncTabOverflow);
+    return () => {
+      el.removeEventListener('scroll', syncTabOverflow);
+      window.removeEventListener('resize', syncTabOverflow);
+    };
+  }, [syncTabOverflow]);
+
+  const nudgeTabs = (direction: -1 | 1) => {
+    const el = tabStripRef.current;
+    if (!el) return;
+    el.scrollBy({ left: direction * Math.max(160, el.clientWidth * 0.6), behavior: 'smooth' });
+  };
 
   const { addItem } = useCart();
   const heroRef = useRef<HTMLDivElement>(null);
@@ -568,9 +604,49 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           {/* Tab bar */}
           <Reveal>
-            <div className="border-b border-beige-dark/50">
+            <div className="relative border-b border-beige-dark/50">
+              {/* Left fade + arrow — only while there is something to its left */}
               <div
-                className="flex gap-1 sm:gap-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mb-px"
+                aria-hidden="true"
+                className={`pointer-events-none absolute left-0 top-0 bottom-px z-10 w-16 bg-gradient-to-r from-white to-transparent transition-opacity duration-300 sm:hidden ${
+                  tabOverflow.left ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+              {tabOverflow.left && (
+                <button
+                  type="button"
+                  onClick={() => nudgeTabs(-1)}
+                  aria-label="Show previous tabs"
+                  className="absolute left-0 top-1/2 z-20 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-full bg-navy text-white shadow-md shadow-navy/25 sm:hidden"
+                >
+                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                </button>
+              )}
+
+              {/* Right fade + arrow — the important one: it is what tells a
+                  phone user that Ingredients / How To Use / Reviews exist. */}
+              <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute right-0 top-0 bottom-px z-10 w-16 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 sm:hidden ${
+                  tabOverflow.right ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+              {tabOverflow.right && (
+                <motion.button
+                  type="button"
+                  onClick={() => nudgeTabs(1)}
+                  aria-label="Show more tabs"
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute right-0 top-1/2 z-20 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-full bg-navy text-white shadow-md shadow-navy/25 sm:hidden"
+                >
+                  <ChevronRight className="h-4 w-4" strokeWidth={3} />
+                </motion.button>
+              )}
+
+              <div
+                ref={tabStripRef}
+                className="flex gap-1 sm:gap-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mb-px scroll-smooth pr-10 sm:pr-0"
                 role="tablist"
                 aria-label="Product information"
               >
@@ -579,7 +655,14 @@ export default function ProductDetail({ product, relatedProducts }: ProductDetai
                     key={tab.id}
                     role="tab"
                     aria-selected={activeTab === tab.id}
-                    onClick={() => setActiveTab(tab.id)}
+                    onClick={(e) => {
+                      setActiveTab(tab.id);
+                      e.currentTarget.scrollIntoView({
+                        behavior: 'smooth',
+                        inline: 'center',
+                        block: 'nearest',
+                      });
+                    }}
                     className={`relative px-4 sm:px-2 py-4 font-heading font-bold uppercase tracking-[0.14em] text-sm md:text-base whitespace-nowrap transition-colors duration-300 cursor-pointer ${
                       activeTab === tab.id
                         ? 'text-ink'
