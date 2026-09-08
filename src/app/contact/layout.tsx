@@ -10,7 +10,15 @@ export const metadata: Metadata = {
     description:
       'Have a question? Reach out to the McFuntain Nutraceuticals team for product support, wellness guidance, or partnership inquiries.',
     type: 'website',
-  },
+      images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'McFuntain Nutraceuticals',
+      },
+    ],
+},
 };
 
 export default function ContactLayout({

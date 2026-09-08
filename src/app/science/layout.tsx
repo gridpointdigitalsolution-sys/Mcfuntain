@@ -10,7 +10,15 @@ export const metadata: Metadata = {
     description:
       'Where centuries of African herbal wisdom meet modern botanical research. Explore the science behind our premium supplements.',
     type: 'website',
-  },
+      images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'McFuntain Nutraceuticals',
+      },
+    ],
+},
 };
 
 export default function ScienceLayout({

@@ -15,7 +15,15 @@ export const metadata: Metadata = {
     description:
       'Insights on African herbal wisdom and modern botanical science — energy, longevity, metabolic balance, brain health, and how to choose a quality supplement.',
     type: 'website',
-  },
+      images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'McFuntain Nutraceuticals',
+      },
+    ],
+},
 };
 
 export default async function BlogPage() {

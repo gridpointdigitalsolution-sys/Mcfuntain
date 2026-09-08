@@ -18,15 +18,33 @@ export const metadata: Metadata = {
     title: 'Shop | McFuntain Nutraceuticals',
     description:
       'Premium herbal supplements crafted with science-backed formulations for better living.',
-  },
+      images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'McFuntain Nutraceuticals',
+      },
+    ],
+},
 };
 
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function ShopPage() {
-  const [products, seriesList] = await Promise.all([getProducts(), getAllSeries()]);
+export default async function ShopPage(props: {
+  searchParams: Promise<{ series?: string }>;
+}) {
+  // Read ?series= on the server. Previously ShopContent called useSearchParams,
+  // which forced its whole subtree out of server rendering: /shop shipped with
+  // an EMPTY body - no h1, no product names, no links - which is the worst
+  // possible outcome for the site's main commercial page.
+  const [{ series }, products, seriesList] = await Promise.all([
+    props.searchParams,
+    getProducts(),
+    getAllSeries(),
+  ]);
 
   return (
     <>
@@ -36,7 +54,7 @@ export default async function ShopPage() {
           { name: 'Shop', path: '/shop' },
         ]}
       />
-      <ShopContent products={products} seriesList={seriesList} />
+      <ShopContent products={products} seriesList={seriesList} initialSeries={series} />
     </>
   );
 }

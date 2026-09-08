@@ -5,9 +5,7 @@ import {
   useMemo,
   useEffect,
   useRef,
-  Suspense,
 } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
@@ -40,6 +38,8 @@ type SortOption =
   | 'name-asc';
 
 interface ShopContentProps {
+  /** ?series= read on the server, so this page can render without client JS. */
+  initialSeries?: string;
   products: Product[];
   seriesList: Series[];
 }
@@ -439,12 +439,13 @@ function QuickView({
 }
 
 // ---------------------------------------------------------------------------
-// Inner content (uses useSearchParams — must sit under a Suspense boundary)
+// Inner content
 // ---------------------------------------------------------------------------
 
-function ShopInner({ products, seriesList }: ShopContentProps) {
-  const searchParams = useSearchParams();
-  const [activeSeries, setActiveSeries] = useState<string>('all');
+function ShopInner({ products, seriesList, initialSeries }: ShopContentProps) {
+  const [activeSeries, setActiveSeries] = useState<string>(
+    initialSeries && seriesList.some((s) => s.slug === initialSeries) ? initialSeries : 'all',
+  );
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('popularity');
   const [sortOpen, setSortOpen] = useState(false);
@@ -453,15 +454,16 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
   const pillsRef = useRef<HTMLDivElement>(null);
   const scrollPills = () => pillsRef.current?.scrollBy({ left: 200, behavior: 'smooth' });
 
-  // Honour ?series= query param — sync during render when it changes, so the
-  // user can still pick other pills afterward. Uses the React-recommended
-  // "store previous value in state, adjust during render" pattern.
-  const seriesParam = searchParams.get('series');
-  const [lastParam, setLastParam] = useState<string | null>(null);
-  if (seriesParam !== lastParam) {
-    setLastParam(seriesParam);
-    if (seriesParam && seriesList.some((s) => s.slug === seriesParam)) {
-      setActiveSeries(seriesParam);
+  // Honour ?series= when the shopper navigates between series links. The value
+  // now arrives from the server as a prop, so the page renders its content on
+  // the server; the user can still pick other pills afterward.
+  const [lastParam, setLastParam] = useState<string | undefined>(initialSeries);
+  if (initialSeries !== lastParam) {
+    setLastParam(initialSeries);
+    if (initialSeries && seriesList.some((s) => s.slug === initialSeries)) {
+      setActiveSeries(initialSeries);
+    } else if (!initialSeries) {
+      setActiveSeries('all');
     }
   }
 
@@ -734,13 +736,9 @@ function ShopInner({ products, seriesList }: ShopContentProps) {
 }
 
 // ---------------------------------------------------------------------------
-// Exported wrapper — Suspense boundary required for useSearchParams (Next 16)
+// Exported wrapper (no Suspense needed: the series param comes from the server)
 // ---------------------------------------------------------------------------
 
 export default function ShopContent(props: ShopContentProps) {
-  return (
-    <Suspense fallback={null}>
-      <ShopInner {...props} />
-    </Suspense>
-  );
+  return <ShopInner {...props} />;
 }

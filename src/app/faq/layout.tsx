@@ -10,7 +10,15 @@ export const metadata: Metadata = {
     description:
       'Find answers to common questions about McFuntain Nutraceuticals products, ordering, shipping, and returns.',
     type: 'website',
-  },
+      images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'McFuntain Nutraceuticals',
+      },
+    ],
+},
 };
 
 export default function FAQLayout({
