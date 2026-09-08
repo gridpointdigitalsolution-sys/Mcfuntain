@@ -11,7 +11,7 @@ import CursorGlow from "@/components/CursorGlow";
 import Analytics from "@/components/Analytics";
 import { CartProvider } from "@/context/CartContext";
 import { SITE_URL } from "@/lib/site";
-import { socialLinks } from "@/data/social";
+import { linkedSocials } from "@/data/social";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -104,7 +104,7 @@ export default function RootLayout({
                 addressRegion: "MD",
                 addressCountry: "US",
               },
-              sameAs: socialLinks.map((s) => s.href),
+              sameAs: linkedSocials.map((s) => s.href),
             }),
           }}
         />
