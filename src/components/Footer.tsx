@@ -333,7 +333,15 @@ export default function Footer() {
         {/* ---- Designer credit ---- */}
         <div className="border-t border-white/10 py-5 text-center">
           <p className="text-xs tracking-wide text-white/45">
-            Designed by <span className="font-semibold text-white/70">Churchill Bracknell</span>
+            Designed by{' '}
+            <a
+              href="https://churchillbracknell.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-white/70 underline decoration-white/20 decoration-1 underline-offset-2 transition-colors hover:text-gold hover:decoration-gold/60"
+            >
+              Churchill Bracknell
+            </a>
           </p>
         </div>
       </div>
